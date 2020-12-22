@@ -1,0 +1,96 @@
+.Sidebar{
+  height: 5%;
+  width: 100%;
+  background-color: #2F4050;
+  float: left;
+  display: flex;
+  align-items:  center;
+  color: white;
+}
+
+
+.SidebarList{
+  height: auto;
+  padding: 0;
+  width: 100%;
+}
+
+.nav-menu-items{
+  width: 100%;
+  padding-inline-start: 0px;  
+}
+
+.nav-menu-items .row{
+  position: relative;
+  height: 8%;
+  width: 100%;
+  list-style-type: none;
+  margin: 0%;
+  display: flex;
+  flex-direction: row;
+  color: white;
+  justify-content: normal;
+  align-items: center;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.nav-menu-items .row:hover {
+  cursor: pointer;
+  background-color: #293846;
+  width: 100%;
+}
+
+.nav-menu-items #active.row {
+  background-color: #293846;
+}
+
+
+.nav-menu {
+  background-color: #2F4050;
+  width: 250px;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: -100%;
+  transition: 850ms;
+  padding-top: 5%;
+}
+
+.nav-menu-items .row #icon {
+    flex: 30%;
+    display: grid;
+    place-items: center;
+  }
+  
+  .nav-menu-items .row #title {
+    flex: 70%;
+  }
+  
+
+
+.nav-menu.active {
+  left: 0;
+  transition: 350ms;
+}
+
+.navbar-toggle {
+  height: 0%;
+  width: 100%;
+  list-style-type: none;
+  margin: 0%;
+  display: flex;
+  flex-direction: row;
+  color: white;
+  justify-content: center;
+  align-items: center;
+}
+
+.menu-bars {
+  margin-left: 2%;
+  margin-right: 90%;
+  margin-top: 0%;
+  font-size: 1rem;
+  background: none;
+}

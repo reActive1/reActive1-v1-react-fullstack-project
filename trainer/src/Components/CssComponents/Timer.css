@@ -1,0 +1,47 @@
+h1 {
+    font-family: "Roboto";
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+.timers {
+  padding-top: 30px;
+  text-align: "center"
+}
+
+.timer-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.timer {
+  font-family: "Montserrat", "Roboto", "Arial";
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.text {
+  color: black;
+}
+
+.value {
+  font-size: 40px;
+}
+
+.info {
+  max-width: 360px;
+  margin: 40px auto 0;
+  text-align: center;
+  font-size: 16px;
+}
+
+.button-wrapper {
+  text-align: center;
+  margin-top: 40px;
+}
+.gifExercise{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
