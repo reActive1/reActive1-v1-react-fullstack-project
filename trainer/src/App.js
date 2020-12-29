@@ -7,6 +7,7 @@ import {SidebarData} from "./Components/SidebarData";
 import ExerciseForm from "./Components/ExerciseForm";
 import ChooseExrcise from "./ChooseExrcise";
 import Timer from "./Components/Timer";
+import SignUp from "./Components/SignUp"
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
                  )}/>
       {/* Temporary Timer route- allows to display or work on Timer component */}
       <Route path="/Timer" exact component={() => <Timer time={20*60*1000} />} /> 
+      <Route path="/SignUp" exact component={SignUp} ></Route>
     </div>
     </Router>
   );

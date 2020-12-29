@@ -9,6 +9,7 @@ import * as userStore from './store/userFuncs.js';
 mongoose.connect(mongoURI);
 
 const app = express();
+const router = express.Router();
 
 /**
  *     const training = new Training({ 
@@ -46,6 +47,20 @@ app.get('/', (req,res) => {
 app.get('/exercises', async (req,res) =>{
     // exerciseStore.getExercise("newEx");
 });
+
+router.post('/signup', (req, res) => {
+    const newUser = {
+        name:req.body.name,
+        userName:req.body.userName,
+        email:req.body.email,
+        password:req.body.password,
+        gender:req.body.gender,
+        height:req.body.height,
+        weight:req.body.weight
+    };
+    console.log("new User: ", newUser)
+    userStore.createUser(newUser);
+})
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT);
