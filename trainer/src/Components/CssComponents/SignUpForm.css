@@ -5,3 +5,7 @@
     left: 50%;
     top: 20%;
   }
+
+  .fa {
+    position: relative;
+  }

@@ -4,12 +4,10 @@ import * as userModel from '../models/User.js';
 const User = mongoose.model('users');
 
 async function createUser(newUser){
-    console.log("newUser: ", newUser)
-
-    const isUserNameAlreadyExists = getUserByUserName(newUser.userName) !== null ? true : false;
+    const isUserNameAlreadyExists = await getUserByUserName(newUser.userName) === null ? false : true;
     if (isUserNameAlreadyExists){
         console.log("user name already exists");
-        return;
+        return -1;
     }
 
     const user = new User(newUser);
@@ -28,4 +26,4 @@ async function getUserByUserName(userName){
     return await User.findOne({userName: userName});
 }
 
-export { createUser, getUserById }
+export { createUser, getUserById, getUserByUserName }

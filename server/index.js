@@ -1,15 +1,12 @@
 import express from 'express';
 import { mongoURI } from './config.js';
 import mongoose from 'mongoose';
-//import * as exercise from './models/Exercise.js';
-import * as exerciseStore  from './store/exerciseFuncs.js';
-import * as trainingStore from './store/trainingFuncs.js';
-import * as userStore from './store/userFuncs.js';
+import { router as routeUrls } from "./routes/routes.js";
+import cors from "cors";
 
 mongoose.connect(mongoURI);
 
 const app = express();
-const router = express.Router();
 
 /**
  *     const training = new Training({ 
@@ -48,21 +45,10 @@ app.get('/exercises', async (req,res) =>{
     // exerciseStore.getExercise("newEx");
 });
 
-router.post('/signup', (req, res) => {
-    const newUser = {
-        name:req.body.name,
-        userName:req.body.userName,
-        email:req.body.email,
-        password:req.body.password,
-        gender:req.body.gender,
-        height:req.body.height,
-        weight:req.body.weight
-    };
-    console.log("new User: ", newUser)
-    userStore.createUser(newUser);
-})
-
 const PORT = process.env.PORT || 5000;
-app.listen(PORT);
 
+app.use(express.json());
+app.use(cors())
+app.use('/api',routeUrls);
+app.listen(PORT);
 

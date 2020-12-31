@@ -1,0 +1,14 @@
+POST http://localhost:5000/api/signup
+Content-Type: application/json
+
+{
+    "name":"shiran",
+    "userName":"shiranaway",
+    "email":"shiranste@gmail.com",
+    "password":"123",
+    "gender":"female",
+    "weight":"58",
+    "height":"163"
+}
+
+###
