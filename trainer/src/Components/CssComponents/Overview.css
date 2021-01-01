@@ -237,7 +237,7 @@
 
 		.image.fit {
 			display: block;
-			margin: 0 0 2em 0;
+			margin: auto;
 			width: 50%;
 		}
 
@@ -264,7 +264,7 @@
 		.wrapper .inner {
             height: 20rem;
 			margin: 0 auto;
-			width: 80em;
+			width: 70em;
 			position: relative;
 		}
 
