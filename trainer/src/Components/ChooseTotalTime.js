@@ -1,5 +1,6 @@
 import React from "react";
 import "./CssComponents/ChooseTotalTime.css";
+import "./CssComponents/Btn-ChooseTotalTime.css";
 import {NavLink} from 'react-router-dom';
 import { Button as ButtonSemanticUI } from "semantic-ui-react";
 import {Prompt } from 'react-router-dom';
@@ -8,8 +9,8 @@ class ChooseTotalTime extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      trainingtime: 0,
-      restTime: 0,
+      trainingtime: 20 * 60 * 1000,
+      restTime: 20,
       formChanged: false,
       images: [
         {name: "BirdDog", time: 5000},
@@ -19,8 +20,8 @@ class ChooseTotalTime extends React.Component {
        ] };
     this.updateTrainingTime = this.updateTrainingTime.bind(this);
     this.updateRestTime = this.updateRestTime.bind(this);
+    this.createClickListenersForButtons = this.createClickListenersForButtons.bind(this);
   }
-
 
   updateTrainingTime = (trainingtime) => {
     this.setState({
@@ -36,68 +37,122 @@ class ChooseTotalTime extends React.Component {
       })
     };
 
-    componentDidMount() {
-      window.addEventListener('beforeunload', this.beforeunload.bind(this));
+  componentDidMount() {
+    window.addEventListener('beforeunload', this.beforeunload.bind(this));
+    this.createClickListenersForButtons();
+    this.createClickListenersForButtons("bar2-outer", "bar2-grey");
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('beforeunload', this.beforeunload.bind(this));
+  }
+
+  beforeunload(e) {
+    if (this.state.trainingtime !== 0 || this.state.restTime !== 0) {
+      e.preventDefault();
+      e.returnValue = "";
     }
+  }
 
-    componentWillUnmount() {
-      window.removeEventListener('beforeunload', this.beforeunload.bind(this));
+  createClickListenersForButtons(selectorName="bar-outer", barSelector="bar-grey"){
+    const barOuter = document.querySelector('.'+selectorName);
+    const options = document.querySelectorAll(`.${barSelector} .option`);
+    let current = 1;
+    options.forEach((option, i) => (option.index = i + 1));
+    options.forEach(option =>
+      option.addEventListener("click", function() {
+          barOuter.className = selectorName;
+          barOuter.classList.add(`pos${option.index}`);
+          if (option.index > current) {
+            barOuter.classList.add("right");
+          } else if (option.index < current) {
+            barOuter.classList.add("left");
+          }
+          current = option.index;
+      }));
+
     }
-
-    beforeunload(e) {
-      if (this.state.trainingtime !== 0 || this.state.restTime !== 0) {
-        e.preventDefault();
-        e.returnValue = "";
-      }
-    }
-
-
+  
   render() {
       const {formChanged} = this.state;
-
       return (
         <div>
-        <div className="TrainingTimeSelection">
-          <h1>Select training time (in minutes):</h1>
-          <ButtonSemanticUI.Group>
-            <ButtonSemanticUI className="yellow" onClick={() =>  this.updateTrainingTime(20)}>20</ButtonSemanticUI>
-            <ButtonSemanticUI.Or />
-            <ButtonSemanticUI className="orange" onClick={() => this.updateTrainingTime(30)}>30</ButtonSemanticUI>
-            <ButtonSemanticUI.Or />
-            <ButtonSemanticUI className="red" onClick={() => this.updateTrainingTime(40)}>40</ButtonSemanticUI>
-          </ButtonSemanticUI.Group>
-        </div>
-        <div className="RestTimeSelection">
-          <h1>Select rest time (in seconds):</h1>
-          <ButtonSemanticUI.Group>
-            <ButtonSemanticUI className="DeepSkyBlue" onClick={() =>  this.updateRestTime(20)}>20</ButtonSemanticUI>
-            <ButtonSemanticUI.Or />
-            <ButtonSemanticUI className="Blue " onClick={() => this.updateRestTime(30)}>30</ButtonSemanticUI>
-            <ButtonSemanticUI.Or />
-            <ButtonSemanticUI className="DarkBlue" onClick={() => this.updateRestTime(40)}>40</ButtonSemanticUI>
-          </ButtonSemanticUI.Group>
-        </div>
-        {((this.state.trainingtime !== 0) && (this.state.restTime !== 0)) ? (
-        <div className="Wrapper">
-        <div className="ContinueLinkChooseExercises">
-           <NavLink className="btn btn-outline-primary" to = {{
-                       pathname: `/ExerciseForm/${this.state.trainingtime}/${this.state.restTime}`
-                                 }}>
-                                      choose your exercises
-                       </NavLink>
-            </div>
-            <div className="ContinueLinkRandomExercises">
-                 <NavLink className="btn btn-outline-primary" to = {{
-                      pathname: `/Timer`,
-                      state: { myArrayVariableName: this.state.images}
-                                }}>
-                                    lucky random exercises
-                      </NavLink>
-            </div>
-         </div>
-        ) : (
-              <div></div>
-        )}
+             <div className="container card-container">
+                <div className="myCard">
+                    <div className="row card-row">
+                        <div className="col-md-6">
+                            <div className="myLeftCtn"> 
+                            <div className="TrainingTimeSelection">
+                              <header>Select training time (in minutes):</header>
+                              <div className="container container-btn">
+                                <div className="bar bar-grey">
+                                  <div className="option" onClick={() => this.updateTrainingTime(20)}>20</div>
+                                  <div className="option" onClick={() => this.updateTrainingTime(30)}>30</div>
+                                  <div className="option" onClick={() => this.updateTrainingTime(40)}>40</div>
+                                </div>
+                                <div className="bar-outer">
+                                  <div className="bar bar-purple">
+                                    <div className="option" onClick={() => this.updateTrainingTime(20)}>20</div>
+                                    <div className="option" onClick={() => this.updateTrainingTime(30)}>30</div>
+                                    <div className="option" onClick={() => this.updateTrainingTime(40)}>40</div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                              <div className="RestTimeSelection">
+                              <header>Select rest time (in seconds):</header>
+                              <div className="container container-btn">
+                                <div className="bar2 bar2-grey">
+                                  <div className="option" onClick={() => this.updateRestTime(20)}>20</div>
+                                  <div className="option" onClick={() => this.updateRestTime(30)}>30</div>
+                                  <div className="option" onClick={() => this.updateRestTime(40)}>40</div>
+                                </div>
+                                <div className="bar2-outer">
+                                  <div className="bar2 bar-yellow">
+                                  <div className="option" onClick={() => this.updateRestTime(20)}>20</div>
+                                  <div className="option" onClick={() => this.updateRestTime(30)}>30</div>
+                                  <div className="option" onClick={() => this.updateRestTime(40)}>40</div>
+                                  </div>
+                                </div>
+                              </div>
+                              </div>
+                            </div>
+                        </div> 
+                        <div className="col-md-6">
+                            <div className="myRightCtn colorBox">
+                                <div className="box text-white pb-5 text-center"><header>Create your training</header>
+                                    <div className="contact-text pt-4">
+                                      {((this.state.trainingtime !== 0) && (this.state.restTime !== 0)) ? (
+                                      <div className="Wrapper">
+                                      <div className="ContinueLinkChooseExercises animation-box">
+                                        <NavLink className="btn btn-primary" to = {{
+                                                    pathname: `/ExerciseForm/${this.state.trainingtime}/${this.state.restTime}`
+                                                              }}>
+                                                                      <span></span>
+                                                                      <span></span>
+                                                                      <span></span>
+                                                                      <span></span>
+                                                                    choose your exercises
+                                                    </NavLink>
+                                          </div>
+                                          <div className="ContinueLinkRandomExercises animation-box">
+                                              <NavLink className="btn btn-primary" to = {{
+                                                    pathname: `/Timer`,
+                                                    state: { myArrayVariableName: this.state.images}
+                                                              }}>
+                                                                  lucky random exercises
+                                                    </NavLink>
+                                          </div>
+                                      </div>
+                                      ) :
+                                      <div> </div> }
+                                  </div>    
+                                </div>                           
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> 
        {  ((this.state.trainingtime === 0) || (this.state.restTime === 0)) ? 
                  <Prompt when={formChanged} message="Are you sure you wanna do that?" /> : ""
        } 

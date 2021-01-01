@@ -13,7 +13,7 @@ class ExerciseForm extends React.Component {
   constructor(props) {
     super(props);
   
-    var ex = Object.keys(Exercises).map((key)=>{
+    var ex = Object.keys(Exercises).map((key)=>{  //clone of enums
         var obj = {};
         obj[key] = Exercises[key];
         
@@ -21,11 +21,11 @@ class ExerciseForm extends React.Component {
         
             });          
     var res = [];
-    for (var i in ex){
-        for (var key in ex[i])
+    for (var i in ex){  //over each category
+        for (var key in ex[i]) //over each key in category
         {
-            Object.values(ex[i][key]).forEach(item =>{
-                res.push({
+            Object.values(ex[i][key]).forEach(item =>{ //for each value in category 
+                res.push({ //{key: value, text: value, value: value}
                     key: item,
                     text: item,
                     value: item
@@ -37,29 +37,30 @@ class ExerciseForm extends React.Component {
 
 
     var Types_of_exercises = [{
-        key: 'Back exercises',
+        key: 1,//'Back exercises',
         text: 'Back exercises',
         value: 'Back exercises',
       },
       {
-        key: 'Legs exercises',
+        key: 2, //'Legs exercises',
         text: 'Legs exercises',
         value: 'Legs exercises',
       },
       {
-        key: 'Abs exercisesbs',
+        key: 3, //'Abs exercisesbs',
         text: 'Abs exercisesbs',
         value: 'Abs exercisesbs',
       },{
-        key: 'Shoulders exercises',
+        key: 4, //'Shoulders exercises',
         text: 'Shoulders exercises',
         value: 'Shoulders exercises',
       },
       {
-        key: 'FullBody exercises',
+        key: 5, //'FullBody exercises',
         text: 'FullBody exercises',
         value: 'FullBody exercises',
-      },]
+      }]
+      
       var myArray = {"Total":10,"Back exercises": 0, "Legs exercises": 1, "Abs exercisesbs": 3,"Shoulders exercises": 4,"FullBody exercises": 5, "Chest exercises":6};
       this.state = {
         current_exercise: res ,
@@ -102,6 +103,7 @@ randomFunctionHandler = (e) => {
     var current_dropdown=[];
     for (var key in this.state.current_exercises_key[this.state.myArray[e.value]])
     {
+        console.log("key: ", key)
         Object.keys(this.state.current_exercises_key[this.state.myArray[e.value]][key]).forEach(item =>{
           current_dropdown.push({
                 key: item,
@@ -131,69 +133,78 @@ randomFunctionHandler = (e) => {
 
   render() {
       let {choosenExercisesArray} = this.state;
+      console.log("***current_exercise: res: ", this.state.current_exercise);
+      console.log("***current_exercises_key: ex: ", this.state.current_exercises_key);
+      console.log("***myArray: ", this.state.myArray);
+      console.log("***Types_of_exercises: ", this.state.Types_of_exercises);
+      console.log("***choosenExercisesArray: ", this.state.choosenExercisesArray);
+
     return (
-      <Container fluid className="main-content-container px-4">
-        <Row className="page-header py-4 my-4">
-          <Col><h1> Hi you! choose your exercise:  </h1></Col>
-        </Row>
-         
-        <Row className="formRow">
-          <Col>
-            <form>
-              <div>
-                <div>
-                  <button onClick={this.randomFunctionHandler} className="random-exercise-button"> Start random exercise!</button>
+    <div className="container card-container">
+      <div className="myCard">
+          <div className="row card-row">
+              <div className="col-md-6">
+                  <div className="myLeftCtn"> 
+                    <header className="fs-30 px-4">Hi you! choose your exercise: </header>
+                        <form className="exercise-form">
+                          <div>
+                            <div>
+                              <button onClick={this.randomFunctionHandler} className="random-exercise-button"> Start random exercise!</button>
+                            </div>
+                            <Label pointing='right'>Select exrecise type</Label>
+                            <Dropdown
+                              fluid
+                              selection
+                              //value={this.state.type}
+                              onChange={(event, data) => {
+                                {this.filterExercise(data)}
+                              }}
+                              options={this.state.Types_of_exercises}
+                            />
+                              <Label pointing='right'>Select exrecise</Label>
+                              <Dropdown
+                                fluid
+                                selection
+                                onChange={(event,data)=>{
+                                  this.setState({name: data.value})
+                                }}
+                                options={this.state.current_exercise}
+                              />
+                            <Label pointing='right'>Select time</Label>
+                            <Dropdown
+                              fluid
+                              selection
+                              onChange={(event,data)=>{
+                                this.setState({time:data.value})
+                              }}
+                              options={timeOptions}
+                            />
+                            <Label pointing='right'>Select repeats</Label>
+                            <Input 
+                              type="number"
+                              onChange={(event,data)=>{
+                                this.setState({repeats:data.value})
+                              }}
+                            />
+                            <button onClick={this.sumbitExerciseHandler} className="exercise-button" type="submit">
+                              <i className="fas fa-plus-square"></i>
+                            </button>         
+                          </div>
+                        </form> 
+                    </div>
+                </div> 
+                <div className="col-md-6">
+                    <div className="myRightCtn">
+                      <ExerciseList
+                        choosenExercisesArray={choosenExercisesArray} 
+                        updateExercisesArray={this.updateExercisesArrayHandler} 
+                        totalTrainingTime={this.props.match.params.trainingtime}
+                        />
+                    </div>
                 </div>
-                <Label pointing='right'>Select exrecise type</Label>
-                <Dropdown
-                  fluid
-                  selection
-                  //value={this.state.type}
-                  onChange={(event, data) => {
-                    {this.filterExercise(data)}
-                  }}
-                  options={this.state.Types_of_exercises}
-                />
-                  <Label pointing='right'>Select exrecise</Label>
-                  <Dropdown
-                    fluid
-                    selection
-                    onChange={(event,data)=>{
-                      this.setState({name: data.value})
-                    }}
-                    options={this.state.current_exercise}
-                  />
-                <Label pointing='right'>Select time</Label>
-                <Dropdown
-                  fluid
-                  selection
-                  onChange={(event,data)=>{
-                    this.setState({time:data.value})
-                  }}
-                  options={timeOptions}
-                />
-                <Label pointing='right'>Select repeats</Label>
-                <Input 
-                  type="number"
-                  onChange={(event,data)=>{
-                    this.setState({repeats:data.value})
-                  }}
-                />
-                <button onClick={this.sumbitExerciseHandler} className="exercise-button" type="submit">
-                  <i className="fas fa-plus-square"></i>
-                </button>         
-              </div>
-            </form> 
-          </Col>
-          <Col>
-            <ExerciseList
-              choosenExercisesArray={choosenExercisesArray} 
-              updateExercisesArray={this.updateExercisesArrayHandler} 
-              totalTrainingTime={this.props.match.params.trainingtime}
-              />
-          </Col>
-        </Row>
-     </Container>
+            </div>
+        </div>                
+      </div> 
     );
   }
 }

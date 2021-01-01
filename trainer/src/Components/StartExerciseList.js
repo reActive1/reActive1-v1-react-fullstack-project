@@ -1,58 +1,44 @@
 import React from "react";
 import "./CssComponents/Timer.css";
-import BirdDog from "./gifExercise/BirdDog.gif"
-import CatCow from "./gifExercise/CatCow.gif"
-import Superman from "./gifExercise/Superman.gif"
 import FinalTraining from "./gifExercise/FinalTraining.png"
 import RestPicture from "./gifExercise/RestPicture.jpg"
-
 import { CountdownCircleTimer } from 'react-countdown-circle-timer';
 
 class StartExerciseList extends React.Component {
   constructor(props) {
     super(props);
-    this.switchImage = this.switchImage.bind(this);
+    this.switchExercise = this.switchExercise.bind(this);
      this.state = {
-      currentImage: 0,
+      currentExercise: 0,
       restTime: 6,
-      images: [
-       {name: BirdDog, time: 7},
-       {name: Superman, time: 9},
-       {name: CatCow, time: 13}
-      ]
+      exercises: this.props.exercisesArray,
     };
   }
 
-  switchImage() {
-    if (this.state.currentImage < this.state.images.length) {
+  switchExercise() {
+    if (this.state.currentExercise < this.state.exercises.length) {
       this.setState({
-        currentImage: this.state.currentImage + 1
+        currentExercise: this.state.currentExercise + 1
       });
-    } else {
-
-    }
-    return this.currentImage;
+    } 
+    return this.currentExercise;
   }
-
-  componentDidMount() {
-      setInterval(this.switchImage, this.state.images[this.state.currentImage].time*1000);
-  }
-
 
   render() {
     return (
       <div>
-      {(this.state.currentImage < this.state.images.length) ? (
+      {(this.state.currentExercise < this.state.exercises.length) ? (
        <div>
        <div className="timer-wrapper">
                 <CountdownCircleTimer
-                  key = {this.state.currentImage}
-                  duration={this.state.images[this.state.currentImage].time}
+                  key = {this.state.currentExercise}
+                  duration={this.state.exercises[this.state.currentExercise].time}
                   onComplete={() => {
                         // do your stuff here
-                        return [true, 0]
+                        this.switchExercise();
+                        return [false, 0]
                       }}
-                  isPlaying={true}
+                  isPlaying={this.props.isPlaying}
 
                   colors={[
                     ['#004777', 0.33],
@@ -72,18 +58,17 @@ class StartExerciseList extends React.Component {
       <div className="slideshow-container">
         <img
           className = "gifExercise"
-          src={this.state.images[this.state.currentImage].name}
-          value={this.state.images[this.state.currentImage].time}
-          alt="cleaning images"
+          src={require(`./gifExercise/${(this.state.exercises[this.state.currentExercise].name).replace(/ |-/g,'')}.gif`).default}
+          alt="exercise image"
         />
       </div>
       </div>
-      ) : (
-              <img
-                 className = "gifExercise"
-                  src={FinalTraining}
-                 alt="end of training"
-                 />
+      ) : ( 
+            <img
+                className="gifExercise"
+                src={FinalTraining}
+                alt="end of training"
+            />
        )}
       </div>
     );

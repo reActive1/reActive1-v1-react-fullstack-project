@@ -50,11 +50,11 @@ function Timer(props) {
 
     return (
       <div className="timers">
-        <h1><Countdown date={time} renderer={renderer} ref={setRef} /></h1>
+        <h1 className="mainTimer pt-4"><Countdown date={time} renderer={renderer} ref={setRef} /></h1>
         <div className="button-wrapper">
           {displayPauseOrResumeButton()}
         </div>
-          <StartExerciseList/>
+          <StartExerciseList exercisesArray={location.props.exercisesArray} isPlaying={isPlaying} />
       </div>
     )
 }

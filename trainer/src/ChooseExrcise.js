@@ -1,4 +1,4 @@
-import './ChooseExrcise.css';
+// import './ChooseExrcise.css';
 import React, { useState } from 'react';
 import ExerciseForm from "./Components/ExerciseForm";
 import ExerciseList from "./Components/ExerciseList";
