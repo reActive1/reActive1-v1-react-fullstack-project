@@ -3,6 +3,38 @@ import "./CssComponents/ContactUs.css";
 import emailjs from 'emailjs-com';
 
 class ContactUs extends React.Component {
+
+
+    
+    async onSubmit(event){
+        console.log("on submit methodddddddd")
+        event.preventDefault();
+        console.log(event);
+        this.sendEmail(event);
+        // const newContact = { 
+        //     fullName: ,
+        //     userName: this.state.userName,
+        //     email: this.state.email,
+        //     password: this.state.password,
+        //     gender: this.state.gender,
+        //     weight: this.state.weight,
+        //     height: this.state.height,
+        // }
+
+        // try{
+        //     const res = await axios.post('http://localhost:5000/api/signup', registered);
+        //     if (res.data === -1){
+        //         alert("username already exists")
+        //     }
+        //     else{
+        //         window.location='/'; 
+        //     }
+        // }
+        // catch(error){
+        //     console.log(error.response.data);
+        //     console.log(error.response.status);
+        // }    
+    }
     sendEmail(e) {
 		e.preventDefault();
 		emailjs.sendForm('gmail', 'template_reactiveContact', e.target, 'user_Z7LFrvscaqMDqmneHCVWV')
@@ -20,7 +52,7 @@ class ContactUs extends React.Component {
                     <div className="row card-row">
                         <div className="col-md-6">
                             <div className="myLeftCtn"> 
-                                <form className="myForm text-center" onSubmit={this.sendEmail}>
+                                <form className="myForm text-center" onSubmit={this.onSubmit}>
                                     <header>Contact Us</header>
                                     <div className="form-group">
                                         <i className="fas fa-user"></i>
