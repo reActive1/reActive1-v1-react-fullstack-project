@@ -2,18 +2,17 @@ import express from 'express';
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 import * as userStore from '../store/userFuncs.js';
+import * as contactStore from '../store/contactFunc.js';
 import * as exerciseStore  from '../store/exerciseFuncs.js';
 import * as trainingStore from '../store/trainingFuncs.js';
-import * as contactModel from '../models/Contact.js'; 
 
 //-------- here we handle all get, post, etc req
 
 const router = express.Router();
 const ROUNDS = 10;
 
-const Contact = mongoose.model('contacts');
-router.post('/contactus', async (req, res) => {
 
+router.post('/contactus', async (req, res) => {
     const newContact = {
         fullName:req.body.fullName,
         email:req.body.email,
@@ -21,20 +20,14 @@ router.post('/contactus', async (req, res) => {
         message:req.body.message
     };
 
-    await  (()=> {  
-        const contact = new Contact(newContact); 
-        contact.save();
-        return contact.id;
-    })
+    await contactStore.createContact(newContact)
     .then(data => {
         res.json(data)
     })
     .catch(err => {
         res.json(err)
     });
-})
-
-
+});
 
 router.post('/signup', async (req, res) => {
     const saltPassword = await bcrypt.genSalt(ROUNDS);
