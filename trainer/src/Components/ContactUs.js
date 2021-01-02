@@ -1,19 +1,51 @@
 import React from 'react';
 import "./CssComponents/ContactUs.css";
 import emailjs from 'emailjs-com';
+import axios from 'axios';
+
 
 class ContactUs extends React.Component {
+    constructor() {
+        super();
+        this.state = {
+          fullName: '',
+          email: '',
+          phone: '',
+          message: '',
+        };
+        this.onChange = this.onChange.bind(this);
+        this.sendEmail = this.sendEmail.bind(this);
+      }
+
+      onChange = (e) => {
+        this.setState({ [e.target.name]: e.target.value });
+      }
+
+    async onSubmit(){
+        const { fullName, email, phone, message }  = this.state;
+        try{
+            const res = await axios.post('http://localhost:5000/api/contactus', { fullName, email, phone, message });
+        }
+        catch(error){
+            console.log(error.response.data);
+            console.log(error.response.status);
+        }   
+    }
+
+    
     sendEmail(e) {
-		e.preventDefault();
-		emailjs.sendForm('gmail', 'template_reactiveContact', e.target, 'user_Z7LFrvscaqMDqmneHCVWV')
+        e.preventDefault();
+		emailjs.sendForm('default_service', 'template_reactiveContact', e.target, 'user_Z7LFrvscaqMDqmneHCVWV')
 		  .then((result) => {
 			  console.log(result.text);
 		  }, (error) => {
 			  console.log(error.text);
 		  });
-		  e.target.reset()
+          e.target.reset()
+          this.onSubmit();
 	}
     render(){
+        const { fullName, email, phone, message } = this.state;
         return (
             <div className="container card-container">
                 <div className="myCard">
@@ -24,19 +56,49 @@ class ContactUs extends React.Component {
                                     <header>Contact Us</header>
                                     <div className="form-group">
                                         <i className="fas fa-user"></i>
-                                        <input className="myInput" type="text" placeholder="Full Name" id="username" name="full_name" required/>
+                                        <input 
+                                           className="myInput" 
+                                           onChange={this.onChange} 
+                                           type="text"
+                                           placeholder="Full Name"
+                                           id="username" 
+                                           name="fullName"
+                                           required
+                                        />
                                     </div>
                                     <div className="form-group">
                                         <i className="fas fa-envelope"></i>
-                                        <input className="myInput" type="email" placeholder="E-mail" id="email" name="email" required/>
+                                        <input
+                                            className="myInput" 
+                                            onChange={this.onChange}
+                                            type="email" 
+                                            placeholder="E-mail" 
+                                            id="email" 
+                                            name="email" 
+                                            required
+                                         />
                                     </div>
                                     <div className="form-group">
                                         <i className="fas fa-phone"></i>
-                                        <input className="myInput" type="text" id="phone" placeholder="Phone" name="phone"/> 
+                                        <input 
+                                            className="myInput" 
+                                            onChange={this.onChange} 
+                                            type="text" 
+                                            id="phone" 
+                                            placeholder="Phone" 
+                                            name="phone"
+                                        /> 
                                     </div>
                                     <div className="form-group text-area">
                                         <i className="fas fa-envelope-open-text textarea-contact"></i>
-                                        <textarea className="myInput" id="message" placeholder="Your Message" rows="4" cols="30" name="message"/>
+                                        <textarea
+                                            className="myInput" 
+                                            onChange={this.onChange} 
+                                            id="message" 
+                                            placeholder="Your Message" 
+                                            rows="4" cols="30" 
+                                            name="message"
+                                        />
                                     </div>
                                     <input type="submit"  className="butt" value="SEND"/>
                                 </form>
