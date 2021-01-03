@@ -10,7 +10,7 @@ class Home extends React.Component {
 				<div className = "logoreactive">
 					<img src = {Logo} alt="reactive logo"/>
 				</div>
-				<div class="inner">
+				<div className="inner">
 					<header>	
 						<h1 className="font-1">This is ReActive</h1>
 						<p className="font-2">Let your dream come true!<br /> By using the reactive app you can train and get the results you always wanted.</p>

@@ -47,10 +47,10 @@ class Overview extends React.Component {
                         ))}
                     </div>
                 </div>
-                <section class="wrapper style2">
-                    <div class="inner">
-                        <div class="flex flex-2">
-                            <div class="col col2">
+                <section className="wrapper style2">
+                    <div className="inner">
+                        <div className="flex flex-2">
+                            <div className="col col2">
                                 <h5>Maayan Ezra, Mentor At BAOT</h5>
                                 <h7>Senior Data Intelligence Engineer at Nvidia</h7><br/><br/>
                                 <h6>The project was built step by step in individual and independent work,
@@ -58,11 +58,11 @@ class Overview extends React.Component {
                                      Maayan helped us realize the full potential of the group,
                                     We were glad we got to collaborate with someone like her, who was able to support the team in the small moments.</h6>
                     
-                                <a href="https://extend-tech.com/baot?fbclid=IwAR0uiR-j9HslihxPPwFf5tDBp6Vg-nf2dJ8QXVDR-REwAsHfAzQ5YO5SxsE" class="button button-aboutus">Learn More</a>
+                                <a href="https://extend-tech.com/baot?fbclid=IwAR0uiR-j9HslihxPPwFf5tDBp6Vg-nf2dJ8QXVDR-REwAsHfAzQ5YO5SxsE" className="button button-aboutus">Learn More</a>
                             </div>
-                            <div class="col col1 first">
-                                <div class="image round fit">
-                                    <a href="https://www.linkedin.com/in/maayan-ezra-658b7bab/" class="link"><img src={Maayan} alt="" /></a>
+                            <div className="col col1 first">
+                                <div className="image round fit">
+                                    <a href="https://www.linkedin.com/in/maayan-ezra-658b7bab/" className="link"><img src={Maayan} alt="" /></a>
                                 </div>
                             </div>
                         </div>

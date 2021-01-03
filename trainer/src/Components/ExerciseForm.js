@@ -13,7 +13,6 @@ class ExerciseForm extends React.Component {
     super(props);
 
     var ex = Object.keys(Exercises).map((key) => {
-      //clone of enums
       var obj = {};
       obj[key] = Exercises[key];
 
@@ -21,12 +20,9 @@ class ExerciseForm extends React.Component {
     });
     var res = [];
     for (var i in ex) {
-      //over each category
-      for (var key in ex[i]) { //over each key in category
+      for (var key in ex[i]) {
         Object.values(ex[i][key]).forEach((item) => {
-          //for each value in category
           res.push({
-            //{key: value, text: value, value: value}
             key: item,
             text: item,
             value: item,
@@ -37,27 +33,27 @@ class ExerciseForm extends React.Component {
 
     var Types_of_exercises = [
       {
-        key: 1, //'Back exercises',
+        key: 'Back exercises',
         text: "Back exercises",
         value: "Back exercises",
       },
       {
-        key: 2, //'Legs exercises',
+        key: 'Legs exercises',
         text: "Legs exercises",
         value: "Legs exercises",
       },
       {
-        key: 3, //'Abs exercisesbs',
+        key: 'Abs exercisesbs',
         text: "Abs exercisesbs",
         value: "Abs exercisesbs",
       },
       {
-        key: 4, //'Shoulders exercises',
+        key: 'Shoulders exercises',
         text: "Shoulders exercises",
         value: "Shoulders exercises",
       },
       {
-        key: 5, //'FullBody exercises',
+        key: 'FullBody exercises',
         text: "FullBody exercises",
         value: "FullBody exercises",
       },
@@ -153,14 +149,6 @@ class ExerciseForm extends React.Component {
 
   render() {
     let { choosenExercisesArray } = this.state;
-    console.log("***current_exercise: res: ", this.state.current_exercise);
-    console.log(
-      "***current_exercises_key: ex: ",
-      this.state.current_exercises_key
-    );
-    console.log("***myArray: ", this.state.myArray);
-    console.log("***Types_of_exercises: ", this.state.Types_of_exercises);
-    console.log("***choosenExercisesArray: ", this.state.choosenExercisesArray);
 
     return (
       <div className="container card-container">
