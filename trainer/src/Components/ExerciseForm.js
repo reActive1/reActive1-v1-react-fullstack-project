@@ -131,23 +131,25 @@ class ExerciseForm extends React.Component {
     e.preventDefault();
     let array = this.state.choosenExercisesArray;
     let id = this.state.id;
-    let obj = {
-      name: this.state.name,
-      time: this.state.time,
-      repeats: this.state.repeats,
-      id: id,
-    };
-    array.push(obj);
-    id++;
-    array.push({
-      name: "Rest", 
-      time: this.state.restTime, 
-      repeats: 1,
-      id: id })
-    id++
+    for (let i=0; i<this.state.repeats; i++) {
+      let obj = {
+        name: this.state.name,
+        time: this.state.time,
+        repeats: this.state.repeats,
+        id: id,
+      };
+      array.push(obj);
+      id++;
+      array.push({
+        name: "Rest", 
+        time: this.state.restTime, 
+        repeats: 1,
+        id: id })
+      id++  
+    }
     this.setState({ id: id, choosenExercisesArray: array });
   };
-
+  
   updateExercisesArrayHandler = (newExercisesArray) => {
     this.setState({ choosenExercisesArray: newExercisesArray });
   };
@@ -211,7 +213,7 @@ class ExerciseForm extends React.Component {
                           type="number"
                           defaultValue={this.state.repeats}
                           onChange={(event, data) => {
-                            this.setState({ repeats: data.value });
+                            this.setState({ repeats: parseInt(data.value) });
                           }}
                         />
                       </Form.Field>

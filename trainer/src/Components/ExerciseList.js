@@ -9,7 +9,7 @@ const ExerciseList = ( {choosenExercisesArray, updateExercisesArray, totalTraini
     const exercisesDurationInSec = () => {
         let count = 0;
         choosenExercisesArray.forEach((exercise) => {
-            count+= exercise.time * exercise.repeats;
+            count+= exercise.time;
         })
         return count;
     }
@@ -37,7 +37,7 @@ const ExerciseList = ( {choosenExercisesArray, updateExercisesArray, totalTraini
                  isDurationFitTime: actualDiff <= 0,
                  diff: actualDiff,
                  msgToShow
-                };
+        };
     }
 
 
