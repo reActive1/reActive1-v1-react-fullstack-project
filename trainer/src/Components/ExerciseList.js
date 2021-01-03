@@ -9,7 +9,7 @@ const ExerciseList = ( {choosenExercisesArray, updateExercisesArray, totalTraini
     const exercisesDurationInSec = () => {
         let count = 0;
         choosenExercisesArray.forEach((exercise) => {
-            count+= (exercise.time + exercise.restTime) * exercise.repeats;
+            count+= exercise.time * exercise.repeats;
         })
         return count;
     }
@@ -50,13 +50,15 @@ const ExerciseList = ( {choosenExercisesArray, updateExercisesArray, totalTraini
             <Row className="py-4">
                 <h1 className="text-white">Training List</h1>
             </Row>
-            {choosenExercisesArray.map((exercise) => (
+            {choosenExercisesArray.map((exercise) => 
+                ( exercise.name != "Rest" ? (
                 <Exercise 
                     exercise={exercise} 
                     choosenExercisesArray={choosenExercisesArray} 
                     updateExercisesArray={updateExercisesArray}
                     key={exercise.id} />
-            ))}
+                )
+             : null ))}
             <Row>
                 <h6 className="text-white">Current duration with rest breaks: <br /> 
                 <strong>{convertAndDisplaySec(totalExerciseDuration)}</strong></h6>

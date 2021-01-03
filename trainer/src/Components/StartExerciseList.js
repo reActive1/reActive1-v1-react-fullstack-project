@@ -1,7 +1,6 @@
 import React from "react";
 import "./CssComponents/Timer.css";
 import FinalTraining from "./gifExercise/FinalTraining.png"
-import RestPicture from "./gifExercise/RestPicture.jpg"
 import { CountdownCircleTimer } from 'react-countdown-circle-timer';
 
 class StartExerciseList extends React.Component {

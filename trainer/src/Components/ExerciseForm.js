@@ -12,6 +12,7 @@ class ExerciseForm extends React.Component {
   constructor(props) {
     super(props);
 
+
     var ex = Object.keys(Exercises).map((key) => {
       var obj = {};
       obj[key] = Exercises[key];
@@ -79,7 +80,7 @@ class ExerciseForm extends React.Component {
       name: "Supermans",
       time: 30,
       repeats: 1,
-      restTime: 10,
+      restTime: parseInt(this.props.match.params.restTime),
       id: 1,
     };
 
@@ -102,7 +103,7 @@ class ExerciseForm extends React.Component {
     console.log(
       `***random name: ${x}, time: ${timeOptionsValues[randomTimeId]}`
     );
-    this.setState({ name: x, time: timeOptionsValues[randomTimeId] });
+    this.setState({ name: x, time: timeOptionsValues[randomTimeId], repeats: 1 });
     this.sumbitExerciseHandler(e);
   };
 
@@ -134,12 +135,16 @@ class ExerciseForm extends React.Component {
       name: this.state.name,
       time: this.state.time,
       repeats: this.state.repeats,
-      restTime: this.state.restTime,
       id: id,
     };
     array.push(obj);
     id++;
-
+    array.push({
+      name: "Rest", 
+      time: this.state.restTime, 
+      repeats: 1,
+      id: id })
+    id++
     this.setState({ id: id, choosenExercisesArray: array });
   };
 
