@@ -48,24 +48,24 @@ export const Exercises = {
 
 export const timeOptions = [
   {
-    key: 5,
-    text: 5,
-    value: 5,
+    key: 20,
+    text: 20,
+    value: 20,
   },
   {
-    key: 10,
-    text: 10,
-    value: 10,
+    key: 30,
+    text: 30,
+    value: 30,
   },
     {
-      key: 15,
-      text: 15,
-      value: 15,
+      key: 40,
+      text: 40,
+      value: 40,
     },
     {
-      key: 20,
-      text: 20,
-      value: 20,
+      key: 60,
+      text: 60,
+      value: 60,
     },
 ]
 
