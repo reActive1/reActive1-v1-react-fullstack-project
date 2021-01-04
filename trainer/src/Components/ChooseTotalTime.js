@@ -4,6 +4,7 @@ import "./CssComponents/Btn-ChooseTotalTime.css";
 import {NavLink} from 'react-router-dom';
 import { Button as ButtonSemanticUI } from "semantic-ui-react";
 import {Prompt } from 'react-router-dom';
+import { getRandomExerciseTraining } from './RandomExerciseTraining';
 
 class ChooseTotalTime extends React.Component {
   constructor(props) {
@@ -12,6 +13,7 @@ class ChooseTotalTime extends React.Component {
       trainingtime: 20 * 60 * 1000,
       restTime: 20,
       formChanged: false,
+      randomExerciseImages: [],
       images: [
         {name: "BirdDog", time: 5000},
         {name: "Superman", time: 10000},
@@ -24,20 +26,26 @@ class ChooseTotalTime extends React.Component {
   }
 
   updateTrainingTime = (trainingtime) => {
+    let tempRandomExercises = getRandomExerciseTraining(trainingtime, this.state.restTime);
     this.setState({
       trainingtime: trainingtime * 60 * 1000,
+      randomExerciseImages: tempRandomExercises,
       formChanged: true
     })
   };
 
   updateRestTime = (restTime) => {
+      let tempRandomExercises = getRandomExerciseTraining(this.state.trainingtime, restTime);
       this.setState({
       restTime: restTime,
+      randomExerciseImages: tempRandomExercises,
       formChanged: true
       })
     };
 
   componentDidMount() {
+    let tempRandomExercises = getRandomExerciseTraining(this.state.trainingtime/60000, this.state.restTime);
+    this.setState({randomExerciseImages: tempRandomExercises})
     window.addEventListener('beforeunload', this.beforeunload.bind(this));
     this.createClickListenersForButtons();
     this.createClickListenersForButtons("bar2-outer", "bar2-grey");
@@ -137,10 +145,14 @@ class ChooseTotalTime extends React.Component {
                                           </div>
                                           <div className="ContinueLinkRandomExercises animation-box">
                                               <NavLink className="btn btn-primary" to = {{
-                                                    pathname: `/Timer`,
-                                                    state: { myArrayVariableName: this.state.images}
-                                                              }}>
-                                                                  lucky random exercises
+                                                       pathname: `/Timer/`,
+                                                       props: { exercisesArray: this.state.randomExerciseImages }
+                                                    }}>
+                                                    <span></span>
+                                                    <span></span>
+                                                    <span></span>
+                                                    <span></span>
+                                                  lucky random exercises
                                                     </NavLink>
                                           </div>
                                       </div>
