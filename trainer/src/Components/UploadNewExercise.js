@@ -1,36 +1,58 @@
-import React from 'react';
-import ImageUploader from 'react-images-upload';
+import React, {useState} from 'react';
+import axios from 'axios';
 import './CssComponents/UploadNewExercise.css';
- 
-class UploadNewExercise extends React.Component {
- 
-    constructor(props) {
-        super(props);
-         this.state = { pictures: [] };
-         this.onDrop = this.onDrop.bind(this);
+
+export default function UploadNewExercise() {
+    const [fileInputState, setFileInputState] = useState('');
+    const [previewSource, setPreviewSource] = useState('');
+
+    const handleFileInputChange = (e) => {
+        const file = e.target.files[0];
+        previewFile(file);
     }
- 
-    onDrop(picture) {
-        this.setState({
-            pictures: this.state.pictures.concat(picture),
-        });
-        console.log(this.state.pictures)
+
+    const previewFile = (file) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file); // convert img to url
+        reader.onloadend = () => {
+            setPreviewSource(reader.result);
+        };
+    };
+
+    const handleSubmitFile = (e) => {
+        e.preventDefault();
+        if (!previewSource) return;
+        uploadImage(previewSource);
     }
- 
-    render() {
-        return (
-         <ImageUploader
-                className="UploadNewExercise"
-                withIcon={true}
-                singleImage={true}
-                withPreview={true}
-                buttonText='Choose an image'
-                onChange={this.onDrop}
-                imgExtension={['.jpg', '.gif', '.png', '.gif', '.jpeg']}
-                maxFileSize={5242880}
-            />
-        );
+
+    const uploadImage = async (base64EncodedImage) => {
+        try {
+           const req =  await axios.post('http://localhost:5000/api/uploadExerciseImg',{data : base64EncodedImage});
+        } catch(error){
+            console.error(error);
+        }
     }
+
+    return (
+        <div>
+            <h1>Upload</h1>
+            <form onSubmit={handleSubmitFile} className="form">
+                <div>
+                <input
+                 type="file"
+                  name="image" 
+                  onChange={handleFileInputChange} 
+                  value={fileInputState} 
+                  className="form-input"
+                   />
+                </div>
+          
+                <button className="btn" type="submit">Submit</button>
+            </form>
+            {previewSource && (
+                <img src={previewSource} alt="chosen" style={{height: '300px'}} />
+            )}
+        </div>
+    )
 }
 
-export default UploadNewExercise;

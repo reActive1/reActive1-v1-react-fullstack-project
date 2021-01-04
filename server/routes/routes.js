@@ -1,6 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
+import cloudinary from '../utils/cloudinary.js';
 import * as userStore from '../store/userFuncs.js';
 import * as contactStore from '../store/contactFunc.js';
 import * as exerciseStore  from '../store/exerciseFuncs.js';
@@ -66,6 +67,19 @@ router.post('/signin', async (req, res) => {
     }
     const result = isPassCorrect ? user.id : -1
     res.send(result);
+});
+
+
+router.post('/uploadExerciseImg', async (req, res)=> {
+    try {
+        const fileStr = req.body.data;
+        const uploadedResponse = await cloudinary.v2.uploader.upload(fileStr, {upload_preset: 'ml_default'});
+
+        res.json({msg: "photo uploaded"})
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({err: "Something went wrong while trying to upload photo"});
+    }
 });
 
 export { router };
