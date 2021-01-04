@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from 'react';
 import Exercise from "./ExerciseItem";
-import { Container, Row, Button, Tooltip } from "shards-react";
+import { FormInput, Container, Row, Button, Tooltip } from "shards-react";
 import {NavLink} from 'react-router-dom';
 import { Label } from 'semantic-ui-react';
+import "./CssComponents/ExerciseList.css";
 
 const ExerciseList = ( {choosenExercisesArray, updateExercisesArray, totalTrainingTime}) => {
+    const [trainingName, setTrainingName] = useState("");
 
     const exercisesDurationInSec = () => {
         let count = 0;
@@ -13,7 +15,16 @@ const ExerciseList = ( {choosenExercisesArray, updateExercisesArray, totalTraini
         })
         return count;
     }
-    
+
+    const saveTrainingNameDBHandler = (trainingNameToSave) => {
+                 console.log("save trainingName into DB" + trainingName)
+        }
+
+    const handleAddTrainingName = (eTrainingNameToSave) => {
+           console.log("trainingName " +eTrainingNameToSave.target.value)
+           setTrainingName(eTrainingNameToSave.target.value)
+        }
+
     const convertAndDisplaySec = (timeInSec) => {
         let secDisplay = timeInSec % 60 === 0 ? "00" : timeInSec % 60;
         let minDisplay = Math.trunc(timeInSec/60) === 0 ? "00" : Math.trunc(timeInSec/60);
@@ -71,6 +82,15 @@ const ExerciseList = ( {choosenExercisesArray, updateExercisesArray, totalTraini
                   <Button pill theme="info" size="lg" disabled={!isDurationFitTime}>START TRAINING</Button>
             </NavLink>
             {!isDurationFitTime && <Label basic color='red' pointing='left'>{msgToShow}</Label>}
+            </Row>
+            <Row>
+            <div className="saveTrainingButton" >
+              <Button onClick={saveTrainingNameDBHandler} className="mt-4" pill theme="info" size="lg" disabled={!isDurationFitTime}>SAVE TRAINING NAME</Button>
+              <FormInput size="sm" placeholder="training name" className="saveTrainingBox"
+                                     onChange={handleAddTrainingName} />
+
+             </div>
+
             </Row>
         </Container>
     );
