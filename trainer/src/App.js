@@ -10,6 +10,7 @@ import Timer from "./Components/Timer";
 import SignUp from "./Components/SignUp"
 import SignIn from "./Components/SignIn"
 import UploadNewExercise from "./Components/UploadNewExercise"
+import DownloadNewExercise from "./Components/DownloadNewExercise"
 
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
       <Route path="/SignUp" exact component={SignUp} ></Route>
       <Route path="/SignIn" exact component={SignIn} ></Route>
       <Route path="/UploadNewExercise" exact component={UploadNewExercise} ></Route>
+      <Route path="/DownloadNewExercise" exact component={DownloadNewExercise} ></Route>
 
     </div>
     </Router>

@@ -69,6 +69,18 @@ router.post('/signin', async (req, res) => {
     res.send(result);
 });
 
+router.get('/images', async (req, res) => {
+    console.log("in server!!!");
+    const { resources } = await cloudinary.v2.search
+        .expression('folder:samples')
+        .sort_by('public_id', 'desc')
+        .max_results(30)
+        .execute();
+    console.log(resources);
+    const publicIds = resources.map((file) => file.public_id);
+    console.log(publicIds);
+    res.send(publicIds);
+});
 
 router.post('/uploadExerciseImg', async (req, res)=> {
     try {
