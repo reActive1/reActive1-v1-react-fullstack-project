@@ -1,12 +1,8 @@
 .mainTimer {
     text-align: center;
     margin-bottom: 40px;
+    font-weight: 600;
   }
-
-.timers {
-  padding-top: 30px;
-  text-align: "center"
-}
 
 .timer-wrapper {
   display: flex;
@@ -38,7 +34,13 @@
 .button-wrapper {
   text-align: center;
   margin-top: 40px;
+  margin-bottom: 40px;
 }
+
+.pointer {
+  cursor: pointer;
+}
+
 .gifExercise{
   display: block;
   margin-left: auto;
