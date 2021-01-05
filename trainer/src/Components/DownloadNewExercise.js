@@ -7,10 +7,8 @@ export default function DownloadNewExercise(){
     const [imageIds, setImageIds] = useState();
     const loadImages = async () => {
         try {
-            // const res = await axios.get('http://localhost:5000/api/images');
             const res = await fetch('http://localhost:5000/api/images');
             const data = await res.json();
-            // const data = await res.data();
             console.log(data);
             setImageIds(data);
         } catch (err) {
@@ -18,7 +16,6 @@ export default function DownloadNewExercise(){
         }
     };
     useEffect(() => {
-        console.log("useEffect");
         loadImages();
     }, []);
 return (
@@ -29,7 +26,7 @@ return (
                     imageIds.map((imageId, index) => (
                         <Image
                             key={index}
-                            cloudName= "dudxklqht" //{process.env.REACT_APP_CLOUDINARY_NAME}
+                            cloudName= "dudxklqht" 
                             publicId={imageId}
                             width="300"
                             crop="scale"

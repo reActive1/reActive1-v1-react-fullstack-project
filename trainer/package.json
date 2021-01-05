@@ -22,6 +22,7 @@
     "react-dropdown-timepicker": "^1.0.4",
     "react-icons": "^3.11.0",
     "react-images-upload": "^1.2.8",
+    "react-loader-spinner": "^3.1.14",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.0",
     "semantic-ui-css": "^2.4.1",
