@@ -35,7 +35,7 @@ class ChooseTotalTime extends React.Component {
   };
 
   updateRestTime = (restTime) => {
-      let tempRandomExercises = getRandomExerciseTraining(this.state.trainingtime, restTime);
+      let tempRandomExercises = getRandomExerciseTraining(this.state.trainingtime/60000, restTime);
       this.setState({
       restTime: restTime,
       randomExerciseImages: tempRandomExercises,
