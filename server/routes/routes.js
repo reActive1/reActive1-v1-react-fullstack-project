@@ -75,11 +75,24 @@ router.post('/uploadExerciseImg', async (req, res)=> {
         const fileStr = req.body.data;
         const uploadedResponse = await cloudinary.v2.uploader.upload(fileStr, {upload_preset: 'ml_default'});
 
-        res.json({msg: "photo uploaded"})
+        res.json({imgUrl: uploadedResponse.url})
     } catch (error) {
         console.error(error);
         res.status(500).json({err: "Something went wrong while trying to upload photo"});
     }
+});
+
+
+router.post('/newExercise', async (req, res) => {
+    try{
+        const newExercise = req.body;
+        const exercise = await exerciseStore.createExercise(newExercise);
+       
+        res.json(exercise);
+    } catch (error){
+        console.error(error);
+    }
+
 });
 
 export { router };
