@@ -9,7 +9,6 @@ import { CountdownCircleTimer } from 'react-countdown-circle-timer';
 
 function Timer(props) {
   let location = useLocation();
-  console.log(location);
   let countdownApi = null;
   const [isPlaying, setIsPlaying] = useState(true);
   const [time, setTime] = useState(Date.now()+props.time); 
@@ -71,7 +70,8 @@ function Timer(props) {
             <div className="row card-row">
                 <div className="col-md-6">
                     <div className="myLeftCtn"> 
-                        <h1 className="mainTimer pt-4"><Countdown date={time} renderer={renderer} ref={setRef} /></h1>
+                        <h1 className="mainTimer pt-4"><header>Total training time:</header>
+                          <Countdown date={time} renderer={renderer} ref={setRef} /></h1>
                         {(currentExercise < exercises.length) ? (
                             <div className="timer-wrapper">
                                 <CountdownCircleTimer
@@ -105,10 +105,10 @@ function Timer(props) {
                     <div className="myRightCtn">
                       {(currentExercise < exercises.length) ? (
                         <div>
-                          <div className="slideshow-container text-center">
+                          <div className="text-center">
                             <header>{exercises[currentExercise].name}</header>
                               <img
-                                className = "gifExercise"
+                                className = "gifExercise img-fluid"
                                 src={require(`./gifExercise/${(exercises[currentExercise].name).replace(/ |-/g,'')}.gif`).default}
                                 alt="exercise image"
                               />

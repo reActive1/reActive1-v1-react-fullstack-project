@@ -9,7 +9,7 @@ import { IconContext } from 'react-icons';
 
 function Sidebar() {
     const [sidebar, setSidebar] = useState(false);
-    const showSideBar = () => setSidebar(!sidebar);
+    const showSideBar = (e) => {e.preventDefault(); setSidebar(!sidebar)};
 
     const history = useHistory();
     return (
@@ -21,9 +21,9 @@ function Sidebar() {
  </div>
         <nav className={sidebar ? 'nav-menu active' : 'nav-menu'}> 
             <ul className='nav-menu-items'>
-                <li className='navbar-toggle' onClick={showSideBar}>
+                <li className='navbar-toggle'>
                     <Link to="#" className='menu-bars-exit'>
-                        <AiIcons.AiOutlineClose />
+                        <AiIcons.AiOutlineClose  onClick={showSideBar}/>
                     </Link>
                 </li>
         {SidebarData.map((val, key) => {
