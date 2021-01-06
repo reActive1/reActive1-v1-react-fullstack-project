@@ -4,9 +4,11 @@ import HistoryIcon from '@material-ui/icons/History';
 import BuildIcon from '@material-ui/icons/Build';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import MailIcon from '@material-ui/icons/Mail';
+import GroupIcon from '@material-ui/icons/Group';
 import Home from "./Home"
 import ChooseTotalTime from './ChooseTotalTime';
 import Overview from './Overview';
+import AboutUs from './AboutUs';
 import LikedTrains from './LikedTrains';
 import ContactUs from './ContactUs';
 import UploadNewExercise from './UploadNewExercise';
@@ -41,6 +43,12 @@ export const SidebarData = [{
     icon: <FavoriteIcon />,
     link: "/likedTrains",
     component: LikedTrains
+},
+{
+    title: "About Us",
+    icon: <GroupIcon />,
+    link: "/AboutUs",
+    component: AboutUs
 },
 {
     title: "Contact Us",
