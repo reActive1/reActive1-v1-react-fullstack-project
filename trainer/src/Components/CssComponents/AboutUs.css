@@ -1,6 +1,5 @@
 
 .our-team{
-    padding: 0 20px;
     text-align: center;
     position: relative;
 }
@@ -8,7 +7,7 @@
     width: 200px;
     height: 200px;
     border-radius: 50%;
-    margin: 0 auto 25px;
+    margin: 0 auto 5px;
     overflow: hidden;
 }
 .our-team .pic img{
@@ -55,7 +54,6 @@
     font-size: 19px;
     color: #001d33;
     letter-spacing: 2px;
-    margin: 0 0 15px 0;
     text-transform: uppercase;
 }
 .our-team .post{
