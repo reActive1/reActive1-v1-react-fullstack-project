@@ -9,6 +9,8 @@ import ChooseTotalTime from './ChooseTotalTime';
 import Overview from './Overview';
 import LikedTrains from './LikedTrains';
 import ContactUs from './ContactUs';
+import UploadNewExercise from './UploadNewExercise';
+import AddIcon from '@material-ui/icons/Add';
 
 export const SidebarData = [{
     title: "Home",
@@ -27,6 +29,12 @@ export const SidebarData = [{
     icon: <BuildIcon />,
     link: "/ChooseTotalTime",
     component: ChooseTotalTime
+},
+{
+    title: "Upload New Exercise",
+    icon: <AddIcon />,
+    link: "/UploadNewExercise",
+    component: UploadNewExercise
 },
 {
     title: "Liked Trains",

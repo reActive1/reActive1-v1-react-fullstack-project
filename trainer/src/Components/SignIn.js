@@ -50,7 +50,11 @@ export class SignIn extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className="container card-container">
+                <div className="myCard">
+                    <div className="row card-row">
+                        <div className="col-md-6">
+                            <div className="myLeftCtn"> 
                         <form onSubmit={this.onSubmit}>
                         <div className='form-div'>
                            <h1>Sign In</h1>
@@ -72,11 +76,21 @@ export class SignIn extends React.Component {
                                 <p>Dont have an account? <a href="SignUp">Sign up</a>.</p>
                             </div>
                          </div>
-
                         </form>
-
-
+                        </div>
+                        </div>
+                        <div className="col-md-6">
+                            <div className="myRightCtn">
+                                <div className="box text-white pb-5 text-center"><header>Welcome back!</header>
+                                    <p className="contact-text pt-4">To keep connected with us please login with your personal info</p>
+                                </div>
+                            </div>
+                        </div>
                 </div>
+                        </div>
+                        </div>
+
+
         )
     }
 }

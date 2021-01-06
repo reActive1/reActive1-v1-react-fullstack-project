@@ -65,7 +65,6 @@ export class SignUp extends React.Component {
 
 
     async onSubmit(event){
-        console.log("on submit methodddddddd")
         event.preventDefault();
 
         const registered = { 
@@ -95,8 +94,11 @@ export class SignUp extends React.Component {
 
     render() {
         return (
-            <div>
-                        <form >
+            <div className="container card-container">
+            <div className="myCard">
+                <div className="row card-row">
+                    <div className="col-md-6">
+                        <div className="myLeftCtn">                         <form >
                         <div className='form-div'>
                            <h1>Sign Up</h1>
                            <p>Please fill in this form to create an account.</p>
@@ -165,6 +167,19 @@ export class SignUp extends React.Component {
                          </div>
                         </form>
                 </div>
+                </div>
+                <div className="col-md-6">
+                            <div className="myRightCtn">
+                                <div className="box text-white pb-5 text-center"><header>Hello, Friend!</header>
+                                    <p className="contact-text pt-4">Enter your personal details and start journey with us</p>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            </div>  
+            </div>  
+
+
         )
     }
 }

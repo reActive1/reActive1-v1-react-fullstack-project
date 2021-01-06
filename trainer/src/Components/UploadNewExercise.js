@@ -84,8 +84,12 @@ export default function UploadNewExercise() {
     }
 
     return (
-        <div>
-            <h1>Upload</h1>
+                 <div className="container card-container">
+                <div className="myCard">
+                    <div className="row card-row">
+                        <div className="col-md-6">
+                            <div className="myLeftCtn"> 
+            <header>Upload</header>
             <form onSubmit={handleSubmitFile} className="container">
                 <div className="file-uploader">
                 <input
@@ -96,9 +100,7 @@ export default function UploadNewExercise() {
                   className="form-input"
                    />
                 </div>
-                {previewSource && (
-                <img src={previewSource} alt="chosen" style={{height: '300px'}} />
-            )}
+ 
                 <div>
                 <Dropdown
                     placeholder='Choose category'
@@ -126,6 +128,19 @@ export default function UploadNewExercise() {
                />            
       </form>
         </div>
+                        </div> 
+                        <div className="col-md-6">
+                            <div className="myRightCtn">
+                                <header>Preview:</header>
+                            {previewSource && (
+                            <img src={previewSource} alt="chosen" style={{height: '300px'}} />
+                              )}
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
     )
 }
 

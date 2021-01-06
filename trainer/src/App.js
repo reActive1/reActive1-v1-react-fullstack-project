@@ -31,8 +31,6 @@ function App() {
       <Route path="/Timer" exact component={() => <Timer time={20*60*1000} />} /> 
       <Route path="/SignUp" exact component={SignUp} ></Route>
       <Route path="/SignIn" exact component={SignIn} ></Route>
-      <Route path="/UploadNewExercise" exact component={UploadNewExercise} ></Route>
-
     </div>
     </Router>
   );
