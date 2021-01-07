@@ -5,7 +5,6 @@ position: relative;
 .saveTrainingButton .saveTrainingBox {
   position: absolute;
   float:left;
-  display:inline;
-  width:80%;
+  width:100%;
 }
 

@@ -26,14 +26,14 @@ return (
                     imageIds.map((imageId, index) => (
                         <Image
                             key={index}
-                            cloudName= "dudxklqht" 
+                            cloudName= "dudxklqht"
                             publicId={imageId}
                             width="300"
                             crop="scale"
                         />
-                    
+
                     ))}
-                    
+
             </div>
     </div>
 );
