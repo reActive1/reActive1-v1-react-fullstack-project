@@ -16,10 +16,11 @@ const ROUNDS = 10;
 router.post('/savedTrains', async (req, res) => {
     const newSavedTrain = {
         name:req.body.trainingName,
-        author:req.body.author,
-        isRandom:req.body.isRandom,
-        totalTimeSec:req.body.totalTimeSec,
-        exerciseList:req.body.exerciseList
+        author:req.body.authorTraining,
+        isRandom:req.body.randomTraining,
+        isSaved:req.body.savedTraining,
+        totalTimeSec:req.body.totalTrainingTime,
+        exerciseList:req.body.chosenExercisesArray
     };
 
     await trainingStore.createTraining(newSavedTrain)

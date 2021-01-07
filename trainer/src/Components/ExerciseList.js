@@ -9,6 +9,7 @@ import axios from 'axios';
 const ExerciseList = ({chosenExercisesArray, updateExercisesArray, totalTrainingTime}) => {
     const [trainingName, setTrainingName] = useState("");
     const [randomTraining] = useState(false);
+    const [savedTraining] = useState(true);
     const [authorTraining] = useState("USER");
     const exercisesDurationInSec = () => {
         let totalExerciseDuration = 0;
@@ -20,7 +21,8 @@ const ExerciseList = ({chosenExercisesArray, updateExercisesArray, totalTraining
 
     const saveTraining = async saveTrainingWithNameIntoDB => {
            try {
-               axios.post('http://localhost:5000/api/savedTrains', {trainingName, authorTraining, randomTraining ,totalTrainingTime, chosenExercisesArray});
+               axios.post('http://localhost:5000/api/savedTrains',
+               {trainingName, authorTraining ,randomTraining ,savedTraining, totalTrainingTime, chosenExercisesArray});
            }
            catch(error){
                console.log(error.response.data);
@@ -29,8 +31,7 @@ const ExerciseList = ({chosenExercisesArray, updateExercisesArray, totalTraining
     }
 
     const handleAddTrainingName = (trainingName) => {
-          console.log("trainingName " + trainingName.target.value)
-          setTrainingName(trainingName.target.value)
+         setTrainingName(trainingName.target.value)
     }
 
     const convertAndDisplaySec = (timeInSec) => {
