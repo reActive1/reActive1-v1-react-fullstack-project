@@ -6,7 +6,7 @@ const Exercise = mongoose.model("exercises");
 
 
 async function createCategory(name){
-    const category = new Category({name: "aaa"});
+    const category = new Category({name: name});
     category.save();
     console.log("new category: ", category)
 }
@@ -16,8 +16,8 @@ async function getCategoryByName(name){
 }
 
 async function createExercise(newExercise){
-    const category = getCategoryByName(newExercise.name);
-    const exercise = new Exercise({name: newExercise.name,category: category,imgSource: newExercise.imgSource});
+   // const category = getCategoryByName(newExercise.category);
+    const exercise = new Exercise({name: newExercise.name,category: {name: newExercise.category},imgSource: newExercise.imgSource});
     exercise.save();
     return exercise.id;
 }
@@ -34,5 +34,13 @@ async function getExerciseById(id){
     return ex;
 }
 
-export { createCategory, createExercise, getExerciseByName };
+async function getAllExercises(){
+    const exercises = await Exercise.find(); //.populate('exerciseSchema.category');
+    console.log("exercises: ", exercises)
+    console.log("exercise category: ", exercises[0].category.name)
+
+    return exercises;
+}
+
+export { createCategory, createExercise, getExerciseByName, getAllExercises };
 

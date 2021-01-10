@@ -104,4 +104,14 @@ router.post('/newExercise', async (req, res) => {
 
 });
 
+router.get('/exercises', async (req, res) => {
+    try {
+        const exercises = await exerciseStore.getAllExercises();
+        
+        res.send(exercises);
+    } catch (error) {
+        console.error(error);
+    }
+});
+
 export { router };
