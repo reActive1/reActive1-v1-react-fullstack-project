@@ -1,29 +1,38 @@
 import React, { useState } from 'react';
 import Exercise from "./ExerciseItem";
-import { FormInput, Container, Row, Button, Tooltip } from "shards-react";
+import { FormInput, Container, Row, Button } from "shards-react";
 import {NavLink} from 'react-router-dom';
 import { Label } from 'semantic-ui-react';
 import "./CssComponents/ExerciseList.css";
+import axios from 'axios';
 
-const ExerciseList = ( {choosenExercisesArray, updateExercisesArray, totalTrainingTime}) => {
+const ExerciseList = ({chosenExercisesArray, updateExercisesArray, totalTrainingTime}) => {
     const [trainingName, setTrainingName] = useState("");
-
+    const [randomTraining] = useState(false);
+    const [savedTraining] = useState(true);
+    const [authorTraining] = useState("USER");
     const exercisesDurationInSec = () => {
-        let count = 0;
-        choosenExercisesArray.forEach((exercise) => {
-            count+= exercise.time;
+        let totalExerciseDuration = 0;
+        chosenExercisesArray.forEach((exercise) => {
+            totalExerciseDuration+= exercise.time;
         })
-        return count;
+        return totalExerciseDuration;
     }
 
-    const saveTrainingNameDBHandler = (trainingNameToSave) => {
-                 console.log("save trainingName into DB" + trainingName)
-        }
+    const saveTraining = async saveTrainingWithNameIntoDB => {
+           try {
+               axios.post('http://localhost:5000/api/savedTrains',
+               {trainingName, authorTraining ,randomTraining ,savedTraining, totalTrainingTime, chosenExercisesArray});
+           }
+           catch(error){
+               console.log(error.response.data);
+               console.log(error.response.status);
+           }
+    }
 
-    const handleAddTrainingName = (eTrainingNameToSave) => {
-           console.log("trainingName " +eTrainingNameToSave.target.value)
-           setTrainingName(eTrainingNameToSave.target.value)
-        }
+    const handleAddTrainingName = (trainingName) => {
+         setTrainingName(trainingName.target.value)
+    }
 
     const convertAndDisplaySec = (timeInSec) => {
         let secDisplay = timeInSec % 60 === 0 ? "00" : timeInSec % 60;
@@ -33,7 +42,6 @@ const ExerciseList = ( {choosenExercisesArray, updateExercisesArray, totalTraini
     }
 
     //consider removing one restTime from total count
-    //option to add a message of what diff in min:sec exists
     const isExercisesDurationFitTotalTime = () => {
         const actualDiff = totalTrainingTimeInSec - totalExerciseDuration;
         const timeLeftInMin = convertAndDisplaySec(actualDiff);
@@ -51,21 +59,20 @@ const ExerciseList = ( {choosenExercisesArray, updateExercisesArray, totalTraini
         };
     }
 
-
     const totalTrainingTimeInSec = totalTrainingTime / 1000;
     const totalExerciseDuration = exercisesDurationInSec();
-    const {isDurationFitTime, diff, msgToShow} = isExercisesDurationFitTotalTime();
+    const {isDurationFitTime, msgToShow} = isExercisesDurationFitTotalTime();
 
     return(
         <Container>
             <Row className="py-4">
                 <h1 className="text-white">Training List</h1>
             </Row>
-            {choosenExercisesArray.map((exercise) => 
-                ( exercise.name != "Rest" ? (
+            {chosenExercisesArray.map((exercise) =>
+                ( exercise.name !== "Rest" ? (
                 <Exercise 
                     exercise={exercise} 
-                    choosenExercisesArray={choosenExercisesArray} 
+                    chosenExercisesArray={chosenExercisesArray}
                     updateExercisesArray={updateExercisesArray}
                     key={exercise.id} />
                 )
@@ -77,7 +84,7 @@ const ExerciseList = ( {choosenExercisesArray, updateExercisesArray, totalTraini
             </Row>
             <Row className="mt-3">
             <NavLink to = {{ pathname: `/Timer/`,
-                             props: { exercisesArray: choosenExercisesArray }
+                             props: { exercisesArray: chosenExercisesArray }
                            }}>
                   <Button pill theme="info" size="lg" disabled={!isDurationFitTime}>START TRAINING</Button>
             </NavLink>
@@ -85,12 +92,11 @@ const ExerciseList = ( {choosenExercisesArray, updateExercisesArray, totalTraini
             </Row>
             <Row>
             <div className="saveTrainingButton" >
-              <Button onClick={saveTrainingNameDBHandler} className="mt-4" pill theme="info" size="lg" disabled={!isDurationFitTime}>SAVE TRAINING NAME</Button>
+              <Button onClick={saveTraining} className="mt-4" pill theme="info" size="lg" disabled={!isDurationFitTime}>SAVE TRAINING NAME</Button>
               <FormInput size="sm" placeholder="training name" className="saveTrainingBox"
                                      onChange={handleAddTrainingName} />
 
              </div>
-
             </Row>
         </Container>
     );

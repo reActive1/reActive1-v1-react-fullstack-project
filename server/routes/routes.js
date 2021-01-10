@@ -13,6 +13,25 @@ const router = express.Router();
 const ROUNDS = 10;
 
 
+router.post('/savedTrains', async (req, res) => {
+    const newSavedTrain = {
+        name:req.body.trainingName,
+        author:req.body.authorTraining,
+        isRandom:req.body.randomTraining,
+        isSaved:req.body.savedTraining,
+        totalTimeSec:req.body.totalTrainingTime,
+        exerciseList:req.body.chosenExercisesArray
+    };
+
+    await trainingStore.createTraining(newSavedTrain)
+    .then(data => {
+        res.json(data)
+    })
+    .catch(err => {
+        res.json(err)
+    });
+});
+
 router.post('/contactus', async (req, res) => {
     const newContact = {
         fullName:req.body.fullName,

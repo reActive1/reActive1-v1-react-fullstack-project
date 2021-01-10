@@ -75,7 +75,7 @@ class ExerciseForm extends React.Component {
       myArray: myArray,
       Types_of_exercises: Types_of_exercises,
       exercise_item: [],
-      choosenExercisesArray: [],
+      chosenExercisesArray: [],
       type: "Back exercises",
       name: "Supermans",
       time: 30,
@@ -129,7 +129,7 @@ class ExerciseForm extends React.Component {
 
   sumbitExerciseHandler = (e) => {
     e.preventDefault();
-    let array = this.state.choosenExercisesArray;
+    let array = this.state.chosenExercisesArray;
     let id = this.state.id;
     for (let i=0; i<this.state.repeats; i++) {
       let obj = {
@@ -147,15 +147,15 @@ class ExerciseForm extends React.Component {
         id: id })
       id++  
     }
-    this.setState({ id: id, choosenExercisesArray: array });
+    this.setState({ id: id, chosenExercisesArray: array });
   };
   
   updateExercisesArrayHandler = (newExercisesArray) => {
-    this.setState({ choosenExercisesArray: newExercisesArray });
+    this.setState({ chosenExercisesArray: newExercisesArray });
   };
 
   render() {
-    let { choosenExercisesArray } = this.state;
+    let { chosenExercisesArray } = this.state;
 
     return (
       <div className="container card-container">
@@ -250,7 +250,7 @@ class ExerciseForm extends React.Component {
             <div className="col-md-6">
               <div className="myRightCtn">
                 <ExerciseList
-                  choosenExercisesArray={choosenExercisesArray}
+                  chosenExercisesArray={chosenExercisesArray}
                   updateExercisesArray={this.updateExercisesArrayHandler}
                   totalTrainingTime={this.props.match.params.trainingtime}
                 />
