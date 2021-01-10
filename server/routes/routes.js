@@ -88,16 +88,6 @@ router.post('/signin', async (req, res) => {
     res.send(result);
 });
 
-router.get('/images', async (req, res) => {
-    const { resources } = await cloudinary.v2.search
-        .expression('folder:samples')
-        .sort_by('public_id', 'desc')
-        .max_results(30)
-        .execute();
-    const publicIds = resources.map((file) => file.public_id);
-    res.send(publicIds);
-});
-
 router.post('/uploadExerciseImg', async (req, res)=> {
     try {
         const fileStr = req.body.data;
@@ -123,6 +113,19 @@ router.post('/newExercise', async (req, res) => {
 
 });
 
+router.post('/newCategory', async (req, res) => {
+    try{
+        const newCategory = req.body;
+        console.log("new Cat", newCategory)
+        const category = await exerciseStore.createCategory(newCategory);
+       
+        res.json(category);
+    } catch (error){
+        console.error(error);
+    }
+
+});
+
 router.get('/exercises', async (req, res) => {
     try {
         const exercises = await exerciseStore.getAllExercises();
@@ -132,5 +135,27 @@ router.get('/exercises', async (req, res) => {
         console.error(error);
     }
 });
+
+router.get('/categories', async (req, res) => {
+    try {
+        const categories = await exerciseStore.getAllCategories();
+
+        res.send(categories);
+    } catch (error) {
+        console.error(error);
+    }
+
+});
+
+router.get('/images', async (req, res) => {
+    const { resources } = await cloudinary.v2.search
+        .expression('folder:samples')
+        .sort_by('public_id', 'desc')
+        .max_results(30)
+        .execute();
+    const publicIds = resources.map((file) => file.public_id);
+    res.send(publicIds);
+});
+
 
 export { router };

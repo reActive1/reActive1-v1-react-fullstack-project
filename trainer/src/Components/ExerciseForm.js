@@ -7,11 +7,11 @@ import { getRandomExercise } from "./RandomExercise";
 import { timeOptions } from "../Common/Enums";
 import ExerciseList from "./ExerciseList";
 import { Container, Row, Col } from "shards-react";
+import axios from "axios";
 
 class ExerciseForm extends React.Component {
   constructor(props) {
     super(props);
-
 
     var ex = Object.keys(Exercises).map((key) => {
       var obj = {};
@@ -32,39 +32,11 @@ class ExerciseForm extends React.Component {
       }
     }
 
-    var Types_of_exercises = [
-      {
-        key: 'Back exercises',
-        text: "Back exercises",
-        value: "Back exercises",
-      },
-      {
-        key: 'Legs exercises',
-        text: "Legs exercises",
-        value: "Legs exercises",
-      },
-      {
-        key: 'Abs exercisesbs',
-        text: "Abs exercisesbs",
-        value: "Abs exercisesbs",
-      },
-      {
-        key: 'Shoulders exercises',
-        text: "Shoulders exercises",
-        value: "Shoulders exercises",
-      },
-      {
-        key: 'FullBody exercises',
-        text: "FullBody exercises",
-        value: "FullBody exercises",
-      },
-    ];
-
     var myArray = {
       Total: 10,
       "Back exercises": 0,
       "Legs exercises": 1,
-      "Abs exercisesbs": 3,
+      "Abs exercises": 3,
       "Shoulders exercises": 4,
       "FullBody exercises": 5,
       "Chest exercises": 6,
@@ -73,7 +45,7 @@ class ExerciseForm extends React.Component {
       current_exercise: res,
       current_exercises_key: ex,
       myArray: myArray,
-      Types_of_exercises: Types_of_exercises,
+      categories: null,
       exercise_item: [],
       chosenExercisesArray: [],
       type: "Back exercises",
@@ -88,6 +60,18 @@ class ExerciseForm extends React.Component {
     this.updateExercisesArrayHandler = this.updateExercisesArrayHandler.bind(
       this
     );
+  }
+
+  async componentDidMount(){
+    const res = await axios.get("http://localhost:5000/api/categories");
+    let categories = res.data.map(params => {
+      return{
+        key: params.name,
+        text: params.name,
+        value: params.name
+      };
+    });
+    this.setState({'categories': categories});
   }
 
   handleRand = () => {
@@ -179,7 +163,7 @@ class ExerciseForm extends React.Component {
                               this.filterExercise(data);
                             }
                           }}
-                          options={this.state.Types_of_exercises}
+                          options={this.state.categories}
                           defaultValue={this.state.type}
                         />
                       </Form.Field>

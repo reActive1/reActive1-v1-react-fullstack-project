@@ -1,44 +1,45 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import { Dropdown } from 'semantic-ui-react'
 import Loader from 'react-loader-spinner'
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import './CssComponents/UploadNewExercise.css';
 
+let categories = [];
 
-var Types_of_exercises = [ // todo: read from db (fix it also in exerciseForm)
-    {
-      key: 'Back exercises',
-      text: "Back exercises",
-      value: "Back exercises",
-    },
-    {
-      key: 'Legs exercises',
-      text: "Legs exercises",
-      value: "Legs exercises",
-    },
-    {
-      key: 'Abs exercisesbs',
-      text: "Abs exercisesbs",
-      value: "Abs exercisesbs",
-    },
-    {
-      key: 'Shoulders exercises',
-      text: "Shoulders exercises",
-      value: "Shoulders exercises",
-    },
-    {
-      key: 'FullBody exercises',
-      text: "FullBody exercises",
-      value: "FullBody exercises",
-    },
-  ];
 export default function UploadNewExercise() {
     const [fileInputState, setFileInputState] = useState('');
     const [previewSource, setPreviewSource] = useState('');
     const [categoryName, setCategoryName] = useState("Back exercises");
     const [exerciseName, setExerciseName] = useState('');
     const [sendData, setSendData] = useState(false);
+
+    useEffect(() => {
+            async function fetchApi(){
+            const res = await axios.get("http://localhost:5000/api/categories");
+            categories = res.data.map(params => {
+              return{
+                key: params.name,
+                text: params.name,
+                value: params.name
+              };
+            });
+        }
+        fetchApi();
+        // async function fetchApi(){
+        //     const res = await axios.get("http://localhost:5000/api/exercises");
+        //     console.log("res: ", res)
+        //     const editedRes = res.data.map(params => {
+        //       return{
+        //         name: params.name,
+        //         category: params.category.name,
+        //         imgSource: params.imgSource
+        //       };
+        //     });
+        //     console.log("editedRes: ", editedRes)
+        // }
+        // fetchApi();
+      }, [categories]);
 
     const handleFileInputChange = (e) => {
         const file = e.target.files[0];
@@ -105,9 +106,8 @@ export default function UploadNewExercise() {
                 <Dropdown
                     placeholder='Choose category'
                     selection
-                    options={Types_of_exercises}
+                    options={categories}
                     value={categoryName}
-                    defaultValue={categoryName}
                     onChange={(e) => setCategoryName(e.target.value)}
                 />
                 </div>

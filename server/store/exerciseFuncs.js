@@ -5,14 +5,18 @@ const Category = mongoose.model("categories");
 const Exercise = mongoose.model("exercises");
 
 
-async function createCategory(name){
-    const category = new Category({name: name});
+async function createCategory(newCategory){
+    const category = new Category({name: newCategory.name});
     category.save();
     console.log("new category: ", category)
 }
 
 async function getCategoryByName(name){
     return await Category.findOne({name: name});
+}
+
+async function getAllCategories(){
+    return await Category.find();
 }
 
 async function createExercise(newExercise){
@@ -42,5 +46,5 @@ async function getAllExercises(){
     return exercises;
 }
 
-export { createCategory, createExercise, getExerciseByName, getAllExercises };
+export { createCategory, createExercise, getExerciseByName, getAllExercises, getAllCategories };
 

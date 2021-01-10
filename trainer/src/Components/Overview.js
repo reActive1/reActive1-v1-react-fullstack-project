@@ -6,18 +6,11 @@ class Overview extends React.Component {
 // todo: use compnentDidMount to read data from db
   tryGetExercises = async () => {
     console.log("in clienttttt")
-    
-    const res = await axios.get("http://localhost:5000/api/exercises");
+    const newCatgory = {
+      name: "Chest exercises"
+    }
+    const res = await axios.post("http://localhost:5000/api/newCategory", newCatgory);
     console.log("res: ", res)
-    const editedRes = res.data.map(params => {
-      return{
-        name: params.name,
-        category: params.category.name,
-        imgSource: params.imgSource
-      };
-    });
-    console.log("editedRes: ", editedRes)
-
 
   };
 
