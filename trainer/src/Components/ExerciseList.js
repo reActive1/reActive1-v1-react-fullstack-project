@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import Exercise from "./ExerciseItem";
-import { FormInput, Container, Row, Button } from "shards-react";
+import { FormInput, Container, Row } from "shards-react";
 import {NavLink} from 'react-router-dom';
-import { Label } from 'semantic-ui-react';
+import { Label, Button, Icon } from 'semantic-ui-react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import "./CssComponents/ExerciseList.css";
 import axios from 'axios';
@@ -10,11 +10,11 @@ import axios from 'axios';
 const ExerciseList = ({chosenExercisesArray, updateExercisesArray, totalTrainingTime, className}) => {
     const [trainingName, setTrainingName] = useState("");
     const [modal, setModal] = useState(false);
-
-    const toggle = () => setModal(!modal);
     const [randomTraining] = useState(false);
     const [savedTraining] = useState(true);
     const [authorTraining] = useState("USER");
+
+    const toggle = () => setModal(!modal);
     const exercisesDurationInSec = () => {
         let totalExerciseDuration = 0;
         chosenExercisesArray.forEach((exercise) => {
@@ -91,32 +91,32 @@ const ExerciseList = ({chosenExercisesArray, updateExercisesArray, totalTraining
             <NavLink to = {{ pathname: `/Timer/`,
                              props: { exercisesArray: chosenExercisesArray }
                            }}>
-                  <Button pill theme="info" size="lg" disabled={!isDurationFitTime}>START TRAINING</Button>
+                  <Button icon labelPosition="right" color="blue"  disabled={!isDurationFitTime}>START TRAINING<Icon name="angle double right" /></Button>
             </NavLink>
             {!isDurationFitTime && <Label basic color='red' pointing='left'>{msgToShow}</Label>}
             </Row>
             <Row>
             <div className="saveTrainingButton" >
-              <Button onClick={toggle} className="mt-4" pill theme="info" size="lg" disabled={!isDurationFitTime}>SAVE TRAINING</Button>
+              <Button onClick={toggle} className="mt-4" icon labelPosition="right" color="blue" disabled={!isDurationFitTime}>SAVE TRAINING<Icon name="save outline" /></Button>
               <Modal isOpen={modal} toggle={toggle} className={className}>
-            <ModalHeader toggle={toggle}>Save Training</ModalHeader>
-            <ModalBody>
-              <FormInput
-                size="sm"
-                placeholder="training name"
-                className="saveTrainingBox"
-                onChange={handleAddTrainingName}
-              />
-            </ModalBody>
-            <ModalFooter>
-              <Button color="primary" onClick={saveTraining}>
-                Save
-              </Button>{" "}
-              <Button color="secondary" onClick={toggle}>
-                Cancel
-              </Button>
-            </ModalFooter>
-          </Modal>
+                <ModalHeader toggle={toggle}>Save Training</ModalHeader>
+                <ModalBody>
+                <FormInput
+                    size="sm"
+                    placeholder="training name"
+                    className="saveTrainingBox"
+                    onChange={handleAddTrainingName}
+                />
+                </ModalBody>
+                <ModalFooter>
+                    <Button color="primary" onClick={saveTraining}>
+                    Save
+                    </Button>{" "}
+                    <Button color="secondary" onClick={toggle}>
+                    Cancel
+                    </Button>
+                </ModalFooter>
+            </Modal>
              </div>
             </Row>
         </Container>
