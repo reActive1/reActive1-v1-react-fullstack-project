@@ -3,11 +3,15 @@ import Exercise from "./ExerciseItem";
 import { FormInput, Container, Row, Button } from "shards-react";
 import {NavLink} from 'react-router-dom';
 import { Label } from 'semantic-ui-react';
+import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import "./CssComponents/ExerciseList.css";
 import axios from 'axios';
 
-const ExerciseList = ({chosenExercisesArray, updateExercisesArray, totalTrainingTime}) => {
+const ExerciseList = ({chosenExercisesArray, updateExercisesArray, totalTrainingTime, className}) => {
     const [trainingName, setTrainingName] = useState("");
+    const [modal, setModal] = useState(false);
+
+    const toggle = () => setModal(!modal);
     const [randomTraining] = useState(false);
     const [savedTraining] = useState(true);
     const [authorTraining] = useState("USER");
@@ -20,7 +24,8 @@ const ExerciseList = ({chosenExercisesArray, updateExercisesArray, totalTraining
     }
 
     const saveTraining = async saveTrainingWithNameIntoDB => {
-           try {
+        setModal(!modal);  
+        try {
                axios.post('http://localhost:5000/api/savedTrains',
                {trainingName, authorTraining ,randomTraining ,savedTraining, totalTrainingTime, chosenExercisesArray});
            }
@@ -92,10 +97,26 @@ const ExerciseList = ({chosenExercisesArray, updateExercisesArray, totalTraining
             </Row>
             <Row>
             <div className="saveTrainingButton" >
-              <Button onClick={saveTraining} className="mt-4" pill theme="info" size="lg" disabled={!isDurationFitTime}>SAVE TRAINING NAME</Button>
-              <FormInput size="sm" placeholder="training name" className="saveTrainingBox"
-                                     onChange={handleAddTrainingName} />
-
+              <Button onClick={toggle} className="mt-4" pill theme="info" size="lg" disabled={!isDurationFitTime}>SAVE TRAINING</Button>
+              <Modal isOpen={modal} toggle={toggle} className={className}>
+            <ModalHeader toggle={toggle}>Save Training</ModalHeader>
+            <ModalBody>
+              <FormInput
+                size="sm"
+                placeholder="training name"
+                className="saveTrainingBox"
+                onChange={handleAddTrainingName}
+              />
+            </ModalBody>
+            <ModalFooter>
+              <Button color="primary" onClick={saveTraining}>
+                Save
+              </Button>{" "}
+              <Button color="secondary" onClick={toggle}>
+                Cancel
+              </Button>
+            </ModalFooter>
+          </Modal>
              </div>
             </Row>
         </Container>
