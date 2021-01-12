@@ -2,10 +2,10 @@ import React from 'react';
 import { Row, Col } from "shards-react";
 
 
-const ExerciseItem = ({exercise, choosenExercisesArray, updateExercisesArray}) => {
+const ExerciseItem = ({exercise, chosenExercisesArray, updateExercisesArray}) => {
 
     const deleteHandler = () => {
-        updateExercisesArray(choosenExercisesArray.filter((el) => ((el.id !== exercise.id) && (el.id !== (exercise.id+1)))));
+        updateExercisesArray(chosenExercisesArray.filter((el) => ((el.id !== exercise.id) && (el.id !== (exercise.id+1)))));
     };
 
     return(
