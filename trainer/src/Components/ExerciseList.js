@@ -23,10 +23,10 @@ const ExerciseList = ({chosenExercisesArray, updateExercisesArray, totalTraining
         return totalExerciseDuration;
     }
 
-    const saveTraining = async saveTrainingWithNameIntoDB => {
+    const saveTraining = async saveTrainingWithNameIntoDB => { 
         setModal(!modal);  
         try {
-               axios.post('http://localhost:5000/api/savedTrains',
+               await axios.post('http://localhost:5000/api/savedTrains',
                {trainingName, authorTraining ,randomTraining ,savedTraining, totalTrainingTime, chosenExercisesArray});
            }
            catch(error){
@@ -88,9 +88,9 @@ const ExerciseList = ({chosenExercisesArray, updateExercisesArray, totalTraining
                 {/* Option to display - Remaining time to total: */}
             </Row>
             <Row className="mt-3">
-            <NavLink to = {{ pathname: `/Timer/`,
+            <NavLink to = {isDurationFitTime ? { pathname: `/Timer/`,
                              props: { exercisesArray: chosenExercisesArray }
-                           }}>
+                           } : "#"}>
                   <Button icon labelPosition="right" color="blue"  disabled={!isDurationFitTime}>START TRAINING<Icon name="angle double right" /></Button>
             </NavLink>
             {!isDurationFitTime && <Label basic color='red' pointing='left'>{msgToShow}</Label>}
