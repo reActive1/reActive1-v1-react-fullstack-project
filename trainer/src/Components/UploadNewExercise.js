@@ -1,11 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
-import { Dropdown } from 'semantic-ui-react'
+import { Dropdown, Header } from 'semantic-ui-react'
 import Loader from 'react-loader-spinner'
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import './CssComponents/UploadNewExercise.css';
+import * as IoIo from "react-icons/io";
 
-let categories = [];
 
 export default function UploadNewExercise() {
     const [fileInputState, setFileInputState] = useState('');
@@ -13,17 +13,19 @@ export default function UploadNewExercise() {
     const [categoryName, setCategoryName] = useState("Back exercises");
     const [exerciseName, setExerciseName] = useState('');
     const [sendData, setSendData] = useState(false);
+    const [categories, setCategories] = useState([]);
 
     useEffect(() => {
             async function fetchApi(){
             const res = await axios.get("http://localhost:5000/api/categories");
-            categories = res.data.map(params => {
+            let categoriesEdited = res.data.map(params => {
               return{
                 key: params.name,
                 text: params.name,
                 value: params.name
               };
             });
+            setCategories(categoriesEdited);
         }
         fetchApi();
         // async function fetchApi(){
@@ -59,7 +61,7 @@ export default function UploadNewExercise() {
         // if (!previewSource) return;
         setSendData(true);
         const imgUrl = await uploadImage(previewSource);
-        console.log("categoryName: ", categoryName)
+        console.log("categoryName: ", categoryName )
         const newExercise = {
             name: exerciseName,
             category: categoryName,
@@ -90,9 +92,9 @@ export default function UploadNewExercise() {
                     <div className="row card-row">
                         <div className="col-md-6">
                             <div className="myLeftCtn"> 
-            <header>Upload</header>
-            <form onSubmit={handleSubmitFile} className="container">
-                <div className="file-uploader">
+
+            <form onSubmit={handleSubmitFile} className="container-upload">
+            <header>Do it yourself! <IoIo.IoIosConstruct/></header>
                 <input
                  type="file"
                   name="image" 
@@ -100,25 +102,24 @@ export default function UploadNewExercise() {
                   value={fileInputState} 
                   className="form-input"
                    />
-                </div>
- 
-                <div>
+                <br></br>
                 <Dropdown
                     placeholder='Choose category'
                     selection
                     options={categories}
                     value={categoryName}
-                    onChange={(e) => setCategoryName(e.target.value)}
+                    categoriesEdited
+                    onChange={(event, select) => {
+                        console.log(select.value)
+                    setCategoryName(select.value)}}
                 />
-                </div>
-                <div>
+                 <br></br>
                 <input type = 'text'
                     placeholder='Exercise name'
                     value={exerciseName}
                     onChange={(e) => setExerciseName(e.target.value)}
                 />
-                </div>
-                <button className="btn" type="submit">Submit</button>
+                <button className="btn-hover color-1" type="submit">Submit</button>
                 <Loader
                 type="Hearts"
                 color="#00BFFF"
@@ -130,11 +131,15 @@ export default function UploadNewExercise() {
         </div>
                         </div> 
                         <div className="col-md-6">
-                            <div className="myRightCtn">
-                                <header>Preview:</header>
+                            <div className="myRightCtn">  
+                            <div className="box text-white pb-5 text-center">
+                            {!previewSource && (<header>Missing any exercise?</header>)}
+                            {!previewSource && (
+                            <p className="contact-text pt-4">Upload a gif, select category, choose a name and thats it!</p>)}
                             {previewSource && (
-                            <img src={previewSource} alt="chosen" style={{height: '300px'}} />
+                            <img src={previewSource} alt="chosen" style={{height: '250px'}} />
                               )}
+                              </div>
                             </div>
                             </div>
                         </div>

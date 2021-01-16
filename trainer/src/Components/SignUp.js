@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import "./CssComponents/SignUpForm.css"
+import "./CssComponents/SignForm.css"
 import axios from 'axios';
 import { Form, Radio } from 'semantic-ui-react'
 import * as ImIcons from "react-icons/im";
@@ -130,16 +130,14 @@ export class SignUp extends React.Component {
                             <Form.Field>
                               Gender: <b>{this.state.gender}</b>
                             </Form.Field>
-                            <Form.Field>
-                            <Radio
+                            <Form.Group inline>
+                            <Radio 
                                 label='female'
                                 name='radioGroup'
                                 gender='female'
                                 checked={this.state.gender === 'female'}
                                 onChange={this.changeGender}
                             />
-                            </Form.Field>
-                            <Form.Field>
                             <Radio
                                 label='male'
                                 name='radioGroup'
@@ -147,7 +145,7 @@ export class SignUp extends React.Component {
                                 checked={this.state.gender === 'male'}
                                 onChange={this.changeGender}
                             />
-                            </Form.Field>
+                            </Form.Group>
                             <input type = 'text'
                              placeholder='weight'
                              onChange={this.changeWeight}
@@ -160,10 +158,7 @@ export class SignUp extends React.Component {
                              value={this.state.height}
                              className='form-control form-group'
                              />
-                             <input type='submit' className='btn btn-danger btn-block' value='Submit' onClick={this.onSubmit}/>
-                             <div className="container signin">
-                                <p>Already have an account? <a href="/SignIn">Sign in</a>.</p>
-                            </div>
+                             <input type='submit' className='btn-hover color-2' value='Submit' onClick={this.onSubmit}/>
                          </div>
                         </form>
                 </div>
@@ -172,7 +167,8 @@ export class SignUp extends React.Component {
                             <div className="myRightCtn">
                                 <div className="box text-white pb-5 text-center"><header>Hello, Friend!</header>
                                     <p className="contact-text pt-4">Enter your personal details and start journey with us</p>
-                                </div>
+                                    <p>Already have an account? <a href="/SignIn" className= "button-sign">Sign in</a>.</p>
+                                 </div>
                             </div>
                         </div>
                 </div>

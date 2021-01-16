@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios';
-// import "./CssComponents/SignInForm.css"
+import "./CssComponents/SignForm.css"
 
 export class SignIn extends React.Component {
 
@@ -56,7 +56,7 @@ export class SignIn extends React.Component {
                         <div className="col-md-6">
                             <div className="myLeftCtn"> 
                         <form onSubmit={this.onSubmit}>
-                        <div className='form-div'>
+                        <div className='form-div-signin'>
                            <h1>Sign In</h1>
                            <p>Please fill in this form to get in an account.</p>
                             <input type = 'text'
@@ -71,10 +71,8 @@ export class SignIn extends React.Component {
                              value={this.state.password}
                              className='form-control form-group'
                              />
-                             <input type='submit' className='btn btn-danger btn-block' value='log in'/>
-                             <div className="container signin">
-                                <p>Dont have an account? <a href="SignUp">Sign up</a>.</p>
-                            </div>
+                             <input type='submit' className='btn-hover color-2' value='sign in'/>
+                   
                          </div>
                         </form>
                         </div>
@@ -83,7 +81,11 @@ export class SignIn extends React.Component {
                             <div className="myRightCtn">
                                 <div className="box text-white pb-5 text-center"><header>Welcome back!</header>
                                     <p className="contact-text pt-4">To keep connected with us please login with your personal info</p>
+                                    <div className="container signin">
+                                     <p>Dont have an account? <a href="SignUp" className="button-sign">Sign up</a>.</p>
+                                     </div>
                                 </div>
+                                
                             </div>
                         </div>
                 </div>
