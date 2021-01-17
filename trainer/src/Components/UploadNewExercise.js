@@ -126,6 +126,7 @@ export default function UploadNewExercise() {
                 height={100}
                 width={100}
                 visible={sendData}
+                className="hearts-spinner"
                />            
       </form>
         </div>
