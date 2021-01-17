@@ -6,11 +6,12 @@ const Training = mongoose.model('trainings');
 async function createTraining(newTraining){
     const training = new Training({ 
         name: newTraining.name,
-        createtAt: Date.now(), 
+        createdAt: Date.now(),
         author: newTraining.author,
         isRandom: newTraining.isRandom,
+        isSaved: newTraining.isSaved,
         totalTimeSec: newTraining.totalTimeSec,
-        exerciseList: newTraining.exerciseList  
+        exerciseList: newTraining.exerciseList
     });
     console.log("training: ", training)
     training.save();
@@ -30,5 +31,10 @@ async function getTrainingById(id){
     return training;
 }
 
+async function getAllTraining(){
+    const allTraining = await Training.find();
+    console.log("getAllTraining-> training list: ", allTraining);
+    return allTraining;
+}
 
-export { createTraining, getTrainingById, getTrainingByName }
+export { createTraining, getTrainingById, getTrainingByName, getAllTraining }

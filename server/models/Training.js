@@ -9,7 +9,7 @@ const trainingSchema = new Schema({
     isRandom: Boolean,
     isSaved: Boolean,
     totalTimeSec: Number, 
-    exerciseList: [{ exerciseId: String, exerciseName: String, duration: Number, repeats: Number}],  // duration instead time. maybe remove exerciseName
+    exerciseList: [{ exerciseId: String, name: String, time: Number, repeats: Number}],  // duration instead time. maybe remove exerciseName
 });
 
 export default mongoose.model('trainings', trainingSchema);

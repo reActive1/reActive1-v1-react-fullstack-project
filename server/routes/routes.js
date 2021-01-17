@@ -12,6 +12,10 @@ import * as trainingStore from '../store/trainingFuncs.js';
 const router = express.Router();
 const ROUNDS = 10;
 
+router.get('/allTraining', async (req, res) => {
+   const resources= await trainingStore.getAllTraining()
+   res.send(resources);
+});
 
 router.post('/savedTrains', async (req, res) => {
     const newSavedTrain = {
