@@ -11,7 +11,7 @@ import axios from "axios";
 
 class ExerciseForm extends React.Component {
   constructor(props) {
-    // super(props);
+    super(props);
 
     // var ex = Object.keys(Exercises).map((key) => {
     //   var obj = {};
