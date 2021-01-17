@@ -136,6 +136,18 @@ router.get('/exercises', async (req, res) => {
     }
 });
 
+router.get('/exercisesByCategory', async (req, res) => {
+    try {
+        
+        const exercises = await exerciseStore.getExercisesByCategory(req.query);
+        
+        res.send(exercises);
+    } catch (error) {
+        console.error(error);
+    }
+});
+
+
 router.get('/categories', async (req, res) => {
     try {
         const categories = await exerciseStore.getAllCategories();
