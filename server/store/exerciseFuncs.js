@@ -20,8 +20,9 @@ async function getAllCategories(){
 }
 
 async function createExercise(newExercise){
-   // const category = getCategoryByName(newExercise.category);
-    const exercise = new Exercise({name: newExercise.name,category: {name: newExercise.category},imgSource: newExercise.imgSource});
+    //const exercise = new Exercise({name: newExercise.name,category: {name: newExercise.category},imgSource: newExercise.imgSource});
+    // console.log("exercise: ", newExercise)
+    const exercise = new Exercise({name: newExercise.name,category: newExercise.category,imgSource: newExercise.imgSource});
     exercise.save();
     return exercise.id;
 }
@@ -30,6 +31,12 @@ async function getExerciseByName(name){
     const ex = await Exercise.findOne({name: name});
     console.log("new ex: ", ex, "id: ", ex.id)
     return ex;
+}
+
+async function getExercisesByCategory(category){
+    const exercises = await Exercise.find(category);
+
+    return exercises;
 }
 
 async function getExerciseById(id){
@@ -46,5 +53,5 @@ async function getAllExercises(){
     return exercises;
 }
 
-export { createCategory, createExercise, getExerciseByName, getAllExercises, getAllCategories };
+export { createCategory, createExercise, getExerciseByName,getExercisesByCategory, getAllExercises, getAllCategories };
 

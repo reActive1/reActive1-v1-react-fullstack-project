@@ -109,7 +109,7 @@ function Timer(props) {
                             <header>{exercises[currentExercise].name}</header>
                               <img
                                 className = "gifExercise img-fluid"
-                                src={require(`./gifExercise/${(exercises[currentExercise].name).replace(/ |-/g,'')}.gif`).default}
+                                src={exercises[currentExercise].imgSource}
                                 alt="exercise image"
                               />
                           </div>

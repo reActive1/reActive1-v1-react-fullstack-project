@@ -11,7 +11,7 @@ const categories = mongoose.model('categories',categorySchema);
 
 export const exerciseSchema = new Schema({
     name: String, 
-    category: categorySchema, 
+    category: String, 
     imgSource: String,
 });
 

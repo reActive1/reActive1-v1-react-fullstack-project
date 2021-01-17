@@ -11,45 +11,26 @@ import axios from "axios";
 
 class ExerciseForm extends React.Component {
   constructor(props) {
-    super(props);
+    // super(props);
 
-    var ex = Object.keys(Exercises).map((key) => {
-      var obj = {};
-      obj[key] = Exercises[key];
+    // var ex = Object.keys(Exercises).map((key) => {
+    //   var obj = {};
+    //   obj[key] = Exercises[key];
 
-      return obj;
-    });
-    var res = [];
-    for (var i in ex) {
-      for (var key in ex[i]) {
-        Object.values(ex[i][key]).forEach((item) => {
-          res.push({
-            key: item,
-            text: item,
-            value: item,
-          });
-        });
-      }
-    }
+    //   return obj;
+    // });
 
-    var myArray = {
-      Total: 10,
-      "Back exercises": 0,
-      "Legs exercises": 1,
-      "Abs exercises": 3,
-      "Shoulders exercises": 4,
-      "FullBody exercises": 5,
-      "Chest exercises": 6,
-    };
+    // console.log("ex: ", ex)
+
+
     this.state = {
-      current_exercise: res,
-      current_exercises_key: ex,
-      myArray: myArray,
+      exercises_by_category: [],
       categories: null,
-      exercise_item: [],
+      categoryToExerciseMapper: {},
       chosenExercisesArray: [],
       type: "Back exercises",
-      name: "Supermans",
+      name: "Bird Dog",
+      imgSource: "http://res.cloudinary.com/dudxklqht/image/upload/v1610896704/users_exercises/rlysbo99zbfwaak9dvpr.gif",
       time: 30,
       repeats: 1,
       restTime: parseInt(this.props.match.params.restTime),
@@ -57,21 +38,28 @@ class ExerciseForm extends React.Component {
     };
 
     this.randomFunctionHandler = this.randomFunctionHandler.bind(this);
-    this.updateExercisesArrayHandler = this.updateExercisesArrayHandler.bind(
-      this
-    );
+    this.updateExercisesArrayHandler = this.updateExercisesArrayHandler.bind(this);
   }
 
   async componentDidMount(){
-    const res = await axios.get("http://localhost:5000/api/categories");
-    let categories = res.data.map(params => {
+    const getCategoriesRes = await axios.get("http://localhost:5000/api/categories");
+    let categories = getCategoriesRes.data.map(params => {
       return{
         key: params.name,
         text: params.name,
         value: params.name
       };
     });
-    this.setState({'categories': categories});
+    this.setState({categories: categories});
+    
+
+    const URL = "http://localhost:5000/api/exercisesByCategory";
+    const URLs = categories.map(cat => { return axios.get(URL,{ params: { category: cat.key } })})
+    const exercises = await Promise.all(URLs)
+    let categoryToExerciseMapper = {}
+    exercises.forEach(ex => { categoryToExerciseMapper[ex.config.params.category] = ex.data; }) 
+    this.setState({categoryToExerciseMapper: categoryToExerciseMapper});
+    this.filterExerciseByCategory(categories[0].key)
   }
 
   handleRand = () => {
@@ -80,44 +68,41 @@ class ExerciseForm extends React.Component {
 
   randomFunctionHandler = (e) => {
     e.preventDefault();
-    console.log(getRandomExercise(getRandomExercise(Exercises)));
-    const x = getRandomExercise(getRandomExercise(Exercises));
+    console.log("-------------getRandomExercise", getRandomExercise(getRandomExercise(Exercises)));
+    const randomExercise = getRandomExercise(getRandomExercise(Exercises));
     const timeOptionsValues = timeOptions.map(option => option.value)
     const randomTimeId = Math.floor(Math.random() * timeOptionsValues.length); 
     console.log(
-      `***random name: ${x}, time: ${timeOptionsValues[randomTimeId]}`
+      `***random name: ${randomExercise}, time: ${timeOptionsValues[randomTimeId]}`
     );
-    this.setState({ name: x, time: timeOptionsValues[randomTimeId], repeats: 1 });
+    this.setState({ name: randomExercise, time: timeOptionsValues[randomTimeId], repeats: 1 });
     this.sumbitExerciseHandler(e);
   };
 
-  filterExercise = (e, data) => {
-    console.log(e.value);
-    var current_dropdown = [];
-    for (var key in this.state.current_exercises_key[
-      this.state.myArray[e.value]
-    ]) {
-      console.log("key: ", key);
-      Object.keys(
-        this.state.current_exercises_key[this.state.myArray[e.value]][key]
-      ).forEach((item) => {
-        current_dropdown.push({
-          key: item,
-          text: item,
-          value: item,
-        });
-      });
-    }
-    this.setState({ current_exercise: current_dropdown });
+  filterExerciseByCategory(category){
+    var dropdown_options = [];
+    this.state.categoryToExerciseMapper[category].forEach(exercise => dropdown_options.push({key: exercise.name, text:exercise.name, value: exercise.name}));
+    
+    this.setState({exercises_by_category: dropdown_options});
+    this.setState({type: category})
+
+    console.log("current drop down:", dropdown_options)
+  }
+
+  filterExerciseByCategoryOnEvent = (e, data) => {
+    this.filterExerciseByCategory(e.value);
   };
 
   sumbitExerciseHandler = (e) => {
     e.preventDefault();
     let array = this.state.chosenExercisesArray;
     let id = this.state.id;
+    let exercise = this.state.categoryToExerciseMapper[this.state.type].find(ex => ex.name === this.state.name);
+    this.setState({imgSource: exercise.imgSource});
     for (let i=0; i<this.state.repeats; i++) {
       let obj = {
         name: this.state.name,
+        imgSource: this.state.imgSource,
         time: this.state.time,
         repeats: this.state.repeats,
         id: id,
@@ -126,11 +111,13 @@ class ExerciseForm extends React.Component {
       id++;
       array.push({
         name: "Rest", 
+        imgSource: "https://res.cloudinary.com/dudxklqht/image/upload/v1610909966/users_exercises/Rest_xiepyg.gif",
         time: this.state.restTime, 
         repeats: 1,
         id: id })
       id++  
     }
+    console.log("array: ", array)
     this.setState({ id: id, chosenExercisesArray: array });
   };
   
@@ -160,7 +147,8 @@ class ExerciseForm extends React.Component {
                           selection
                           onChange={(event, data) => {
                             {
-                              this.filterExercise(data);
+                              console.log("data: ", data)
+                              this.filterExerciseByCategoryOnEvent(data);
                             }
                           }}
                           options={this.state.categories}
@@ -175,7 +163,7 @@ class ExerciseForm extends React.Component {
                           onChange={(event, data) => {
                             this.setState({ name: data.value });
                           }}
-                          options={this.state.current_exercise}
+                          options={this.state.exercises_by_category}
                           defaultValue={this.state.name}
                         />
                       </Form.Field>

@@ -144,8 +144,9 @@ router.get('/exercisesByCategory', async (req, res) => {
     try {
         
         const exercises = await exerciseStore.getExercisesByCategory(req.query);
+        const editedExercises = exercises.map(ex => {return {name: ex.name, imgSource:ex.imgSource}});
         
-        res.send(exercises);
+        res.send(editedExercises);
     } catch (error) {
         console.error(error);
     }
