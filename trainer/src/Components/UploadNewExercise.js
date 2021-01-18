@@ -28,19 +28,6 @@ export default function UploadNewExercise() {
             setCategories(categoriesEdited);
         }
         fetchApi();
-        // async function fetchApi(){
-        //     const res = await axios.get("http://localhost:5000/api/exercises");
-        //     console.log("res: ", res)
-        //     const editedRes = res.data.map(params => {
-        //       return{
-        //         name: params.name,
-        //         category: params.category.name,
-        //         imgSource: params.imgSource
-        //       };
-        //     });
-        //     console.log("editedRes: ", editedRes)
-        // }
-        // fetchApi();
       }, [categories]);
 
     const handleFileInputChange = (e) => {
@@ -71,6 +58,7 @@ export default function UploadNewExercise() {
         try {
             const req =  await axios.post('http://localhost:5000/api/newExercise',newExercise);
             setSendData(false);
+            alert("You did it!")
         } catch(error){
             alert("We are sorry, there is a problem. please try again later")
              console.error(error);
