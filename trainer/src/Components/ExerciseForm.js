@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Exercises, restImgSource } from "../Common/Enums";
+import React from "react";
+import { Exercises } from "../Common/Enums";
 import "./CssComponents/ExerciseForm.css";
 import "semantic-ui-css/semantic.min.css";
 import { Dropdown, Label, Form, Input, Button, Icon } from "semantic-ui-react";
@@ -84,29 +84,19 @@ class ExerciseForm extends React.Component {
     let exercise = this.state.categoryToExerciseMapper[this.state.type].find(ex =>  ex.name === this.state.name);
     this.setState({imgSource: exercise.imgSource}, this.createExercisesArray);
   };
-  
 
   createExercisesArray = () => {
     let array = this.state.chosenExercisesArray;
     let id = this.state.id;
-    for (let i=0; i<this.state.repeats; i++) {
-      let obj = {
-        name: this.state.name,
-        imgSource: this.state.imgSource,
-        time: this.state.time,
-        repeats: this.state.repeats,
-        id: id,
-      };
-      array.push(obj);
-      id++;
-      array.push({
-        name: "Rest", 
-        imgSource: restImgSource,
-        time: this.state.restTime, 
-        repeats: 1,
-        id: id })
-      id++  
-    }
+    let obj = {
+      name: this.state.name,
+      imgSource: this.state.imgSource,
+      time: this.state.time,
+      repeats: this.state.repeats,
+      id: id,
+    };
+    array.push(obj);
+    id++;
     this.setState({ id: id, chosenExercisesArray: array });
   }
 
@@ -213,6 +203,7 @@ class ExerciseForm extends React.Component {
                   chosenExercisesArray={chosenExercisesArray}
                   updateExercisesArray={this.updateExercisesArrayHandler}
                   totalTrainingTime={this.props.match.params.trainingtime}
+                  restTime={this.state.restTime}
                 />
               </div>
             </div>

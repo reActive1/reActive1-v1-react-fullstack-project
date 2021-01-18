@@ -7,7 +7,7 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import "./CssComponents/ExerciseList.css";
 import axios from 'axios';
 
-const ExerciseList = ({chosenExercisesArray, updateExercisesArray, totalTrainingTime, className}) => {
+const ExerciseList = ({chosenExercisesArray, updateExercisesArray, totalTrainingTime, restTime, className}) => {
     const [trainingName, setTrainingName] = useState("");
     const [modal, setModal] = useState(false);
     const [randomTraining] = useState(false);
@@ -18,7 +18,7 @@ const ExerciseList = ({chosenExercisesArray, updateExercisesArray, totalTraining
     const exercisesDurationInSec = () => {
         let totalExerciseDuration = 0;
         chosenExercisesArray.forEach((exercise) => {
-            totalExerciseDuration+= exercise.time;
+            totalExerciseDuration+= (exercise.time + restTime) * exercise.repeats;
         })
         return totalExerciseDuration;
     }
@@ -73,23 +73,20 @@ const ExerciseList = ({chosenExercisesArray, updateExercisesArray, totalTraining
             <Row className="py-4">
                 <h1 className="text-white">Training List</h1>
             </Row>
-            {chosenExercisesArray.map((exercise) =>
-                ( exercise.name !== "Rest" ? (
+            {chosenExercisesArray.map((exercise) => (
                 <Exercise 
                     exercise={exercise} 
                     chosenExercisesArray={chosenExercisesArray}
                     updateExercisesArray={updateExercisesArray}
                     key={exercise.id} />
-                )
-             : null ))}
+            ))}
             <Row>
                 <h6 className="text-white">Current duration with rest breaks: <br /> 
                 <strong>{convertAndDisplaySec(totalExerciseDuration)}</strong></h6>
-                {/* Option to display - Remaining time to total: */}
             </Row>
             <Row className="mt-3">
             <NavLink to = {isDurationFitTime ? { pathname: `/Timer/`,
-                             props: { exercisesArray: chosenExercisesArray }
+                             props: { exercisesArray: chosenExercisesArray, restTime: restTime }
                            } : "#"}>
                   <Button icon labelPosition="right" color="blue"  disabled={!isDurationFitTime}>START TRAINING<Icon name="angle double right" /></Button>
             </NavLink>

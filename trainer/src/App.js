@@ -5,7 +5,6 @@ import Home from "./Components/Home";
 import ChooseTotalTime from "./Components/ChooseTotalTime";
 import {SidebarData} from "./Components/SidebarData";
 import ExerciseForm from "./Components/ExerciseForm";
-import ChooseExrcise from "./ChooseExrcise";
 import Timer from "./Components/Timer";
 import SignUp from "./Components/SignUp"
 import SignIn from "./Components/SignIn"
@@ -28,8 +27,7 @@ function App() {
                    render={(props) => (
                    <ExerciseForm {...props}/>
                  )}/>
-      {/* Temporary Timer route- allows to display or work on Timer component */}
-      <Route path="/Timer" exact component={() => <Timer time={20*60*1000} />} /> 
+      <Route path="/Timer" exact component={() => <Timer />} /> 
       <Route path="/SignUp" exact component={SignUp} ></Route>
       <Route path="/SignIn" exact component={SignIn} ></Route>
       <Route path="/DownloadNewExercise" exact component={DownloadNewExercise} ></Route>
