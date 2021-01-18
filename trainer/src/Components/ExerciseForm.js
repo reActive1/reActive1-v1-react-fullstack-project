@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Exercises } from "../Common/Enums";
+import { Exercises, restImgSource } from "../Common/Enums";
 import "./CssComponents/ExerciseForm.css";
 import "semantic-ui-css/semantic.min.css";
 import { Dropdown, Label, Form, Input, Button, Icon } from "semantic-ui-react";
@@ -12,16 +12,6 @@ import axios from "axios";
 class ExerciseForm extends React.Component {
   constructor(props) {
     super(props);
-
-    // var ex = Object.keys(Exercises).map((key) => {
-    //   var obj = {};
-    //   obj[key] = Exercises[key];
-
-    //   return obj;
-    // });
-
-    // console.log("ex: ", ex)
-
 
     this.state = {
       exercises_by_category: [],
@@ -62,21 +52,17 @@ class ExerciseForm extends React.Component {
     this.filterExerciseByCategory(categories[0].key)
   }
 
-  handleRand = () => {
-    return <div>{getRandomExercise(getRandomExercise(Exercises))}</div>;
-  };
-
   randomFunctionHandler = (e) => {
     e.preventDefault();
-    console.log("-------------getRandomExercise", getRandomExercise(getRandomExercise(Exercises)));
-    const randomExercise = getRandomExercise(getRandomExercise(Exercises));
+    const randomExercise = getRandomExercise(this.state.categoryToExerciseMapper[this.state.type]);
+    console.log("++++++++++",this.state.categoryToExerciseMapper[this.state.type])
     const timeOptionsValues = timeOptions.map(option => option.value)
     const randomTimeId = Math.floor(Math.random() * timeOptionsValues.length); 
     console.log(
-      `***random name: ${randomExercise}, time: ${timeOptionsValues[randomTimeId]}`
+      `***random name: ${JSON.stringify(randomExercise)}, time: ${timeOptionsValues[randomTimeId]}`
     );
-    this.setState({ name: randomExercise, time: timeOptionsValues[randomTimeId], repeats: 1 });
-    this.sumbitExerciseHandler(e);
+    this.setState({ name: randomExercise.name, imgSource: randomExercise.imgSource, time: timeOptionsValues[randomTimeId], repeats: 1 }, this.sumbitExerciseHandler(e));
+    
   };
 
   filterExerciseByCategory(category){
@@ -95,10 +81,14 @@ class ExerciseForm extends React.Component {
 
   sumbitExerciseHandler = (e) => {
     e.preventDefault();
+    let exercise = this.state.categoryToExerciseMapper[this.state.type].find(ex =>  ex.name === this.state.name);
+    this.setState({imgSource: exercise.imgSource}, this.createExercisesArray);
+  };
+  
+
+  createExercisesArray = () => {
     let array = this.state.chosenExercisesArray;
     let id = this.state.id;
-    let exercise = this.state.categoryToExerciseMapper[this.state.type].find(ex => ex.name === this.state.name);
-    this.setState({imgSource: exercise.imgSource});
     for (let i=0; i<this.state.repeats; i++) {
       let obj = {
         name: this.state.name,
@@ -111,16 +101,15 @@ class ExerciseForm extends React.Component {
       id++;
       array.push({
         name: "Rest", 
-        imgSource: "https://res.cloudinary.com/dudxklqht/image/upload/v1610909966/users_exercises/Rest_xiepyg.gif",
+        imgSource: restImgSource,
         time: this.state.restTime, 
         repeats: 1,
         id: id })
       id++  
     }
-    console.log("array: ", array)
     this.setState({ id: id, chosenExercisesArray: array });
-  };
-  
+  }
+
   updateExercisesArrayHandler = (newExercisesArray) => {
     this.setState({ chosenExercisesArray: newExercisesArray });
   };
@@ -147,7 +136,6 @@ class ExerciseForm extends React.Component {
                           selection
                           onChange={(event, data) => {
                             {
-                              console.log("data: ", data)
                               this.filterExerciseByCategoryOnEvent(data);
                             }
                           }}

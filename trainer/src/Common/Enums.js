@@ -2,10 +2,10 @@
 export const Exercises = {
      Back: {
            BirdDog: "Bird-Dog",  //https://www.acefitness.org/education-and-resources/lifestyle/exercise-library/14/bird-dog/ -- added
-           Supermans: "Supermans", // https://www.acefitness.org/education-and-resources/lifestyle/exercise-library/9/supermans/
-           CatCow: "Cat-Cow",   //https://www.acefitness.org/education-and-resources/lifestyle/exercise-library/15/cat-cow/
-           ChildsPose: "Childs Pose", //https://www.acefitness.org/education-and-resources/lifestyle/exercise-library/227/childs-pose/
-           FrontPlank: "Front Plank" //https://www.acefitness.org/education-and-resources/lifestyle/exercise-library/32/front-plank/
+           Supermans: "Supermans", // https://www.acefitness.org/education-and-resources/lifestyle/exercise-library/9/supermans/ --added
+           CatCow: "Cat-Cow",   //https://www.acefitness.org/education-and-resources/lifestyle/exercise-library/15/cat-cow/ --added
+           ChildsPose: "Childs Pose", //https://www.acefitness.org/education-and-resources/lifestyle/exercise-library/227/childs-pose/ --added
+           FrontPlank: "Front Plank" //https://www.acefitness.org/education-and-resources/lifestyle/exercise-library/32/front-plank/ --added
        },
     Legs: {
         ForwardLunge: "Forward Lunge", //https://www.acefitness.org/education-and-resources/lifestyle/exercise-library/94/forward-lunge/ --added
@@ -69,3 +69,4 @@ export const timeOptions = [
     },
 ]
 
+export const restImgSource = "https://res.cloudinary.com/dudxklqht/image/upload/v1610909966/users_exercises/Rest_xiepyg.gif";

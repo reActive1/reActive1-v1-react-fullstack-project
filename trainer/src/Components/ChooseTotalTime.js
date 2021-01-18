@@ -5,11 +5,13 @@ import {NavLink} from 'react-router-dom';
 import { Button as ButtonSemanticUI } from "semantic-ui-react";
 import {Prompt } from 'react-router-dom';
 import { getRandomExerciseTraining } from './RandomExerciseTraining';
+import axios from "axios";
 
 class ChooseTotalTime extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      exercises: [],
       trainingtime: 20 * 60 * 1000,
       restTime: 20,
       formChanged: false,
@@ -26,7 +28,7 @@ class ChooseTotalTime extends React.Component {
   }
 
   updateTrainingTime = (trainingtime) => {
-    let tempRandomExercises = getRandomExerciseTraining(trainingtime, this.state.restTime);
+    let tempRandomExercises = getRandomExerciseTraining(this.state.exercises, trainingtime, this.state.restTime); 
     this.setState({
       trainingtime: trainingtime * 60 * 1000,
       randomExerciseImages: tempRandomExercises,
@@ -35,7 +37,7 @@ class ChooseTotalTime extends React.Component {
   };
 
   updateRestTime = (restTime) => {
-      let tempRandomExercises = getRandomExerciseTraining(this.state.trainingtime/60000, restTime);
+      let tempRandomExercises = getRandomExerciseTraining(this.state.exercises, this.state.trainingtime/60000, restTime);
       this.setState({
       restTime: restTime,
       randomExerciseImages: tempRandomExercises,
@@ -43,8 +45,10 @@ class ChooseTotalTime extends React.Component {
       })
     };
 
-  componentDidMount() {
-    let tempRandomExercises = getRandomExerciseTraining(this.state.trainingtime/60000, this.state.restTime);
+  async componentDidMount() {
+    const res = await axios.get("http://localhost:5000/api/exercises");
+    this.setState({exercises: res.data})
+    let tempRandomExercises = getRandomExerciseTraining(this.state.exercises, this.state.trainingtime/60000, this.state.restTime);
     this.setState({randomExerciseImages: tempRandomExercises})
     window.addEventListener('beforeunload', this.beforeunload.bind(this));
     this.createClickListenersForButtons();

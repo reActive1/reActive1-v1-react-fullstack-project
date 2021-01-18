@@ -133,8 +133,15 @@ router.post('/newCategory', async (req, res) => {
 router.get('/exercises', async (req, res) => {
     try {
         const exercises = await exerciseStore.getAllExercises();
-        
-        res.send(exercises);
+        const editedRes = exercises.map(params => {
+            return{
+              name: params.name,
+              category: params.category.name,
+              imgSource: params.imgSource
+            };
+            });
+            
+        res.send(editedRes);
     } catch (error) {
         console.error(error);
     }
