@@ -8,6 +8,7 @@ async function createTraining(newTraining){
         name: newTraining.name,
         createdAt: Date.now(),
         author: newTraining.author,
+        restTime: newTraining.restTime,
         isRandom: newTraining.isRandom,
         isSaved: newTraining.isSaved,
         totalTimeSec: newTraining.totalTimeSec,

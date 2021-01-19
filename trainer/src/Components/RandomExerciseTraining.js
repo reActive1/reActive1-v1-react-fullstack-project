@@ -8,10 +8,7 @@ export const getRandomExerciseTraining = (exercises, trainingTime, restTime) => 
             for (var i = 0; i < numOfExercises; i++) {
                     let exercise = getRandomExercise(exercises);
                     let objExercise = { name: exercise.name, imgSource: exercise.imgSource, time: 60, repeats: 1, restTime: restTime, id:i};
-                    let objRest = {name: "Rest", imgSource: restImgSource, time: restTime, repeats: 1, restTime: restTime, id:i};
                     chosenRandomlyExercisesArray.push(objExercise);
-                    chosenRandomlyExercisesArray.push(objRest);
-             }
-            chosenRandomlyExercisesArray.pop();
-            return chosenRandomlyExercisesArray;
+            }
+          return chosenRandomlyExercisesArray;
 }

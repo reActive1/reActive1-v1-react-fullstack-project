@@ -10,6 +10,7 @@ class LikedTrains extends React.Component {
          this.state = {
              savedTrainingFromDB: [],
              chosenLikedTrainingByName: [],
+             restTimeChosenLikedTraining: 0,
              isUpdatedChosenSavedTraining: false
          }
       this.updateChosenSavedTraining = this.updateChosenSavedTraining.bind(this);
@@ -42,6 +43,7 @@ updateChosenSavedTraining = (trainingName) => {
             if(item.name === trainingName) {
                     console.log(item.exerciseList)
                     this.setState({
+                           restTimeChosenLikedTraining: item.restTime,
                           chosenLikedTrainingByName: item.exerciseList
                         });
                 }
@@ -75,20 +77,20 @@ render(){
                             <div className="col-md-6">
                                 <div className="myRightCtn">
                                           {(this.state.isUpdatedChosenSavedTraining === true) ?
-                                                (<Container>
+                                                (
+                                                <Container>
                                                     <Row className="py-4">
                                                          <h1 className="text-white">Training List</h1>
                                                     </Row>
                                                     <Row className="mb-2">
                                                         {this.state.chosenLikedTrainingByName.map((exercise) =>
-                                                           (exercise.name !== "Rest" ? (
                                                             <Col xs="11">
-                                                            <h3 className="text-white">{exercise.name}</h3> Duration per set: {exercise.time} seconds
-                                                            </Col> ) : null ))}
+                                                            <h3 className="text-white"><span className="repeats">{exercise.repeats} x </span>{exercise.name}</h3>  Duration per set: {exercise.time} seconds
+                                                            </Col> )}
                                                             </Row>
                                                     <NavLink to = {{
                                                                 pathname: `/Timer/`,
-                                                                props: { exercisesArray: this.state.chosenLikedTrainingByName }
+                                                                props: { exercisesArray: this.state.chosenLikedTrainingByName, restTime: this.state.restTimeChosenLikedTraining}
                                                                       }}>
                                                           <Button icon labelPosition="right" color="blue">START TRAINING<Icon name="angle double right" /></Button>
                                                      </NavLink>
