@@ -37,4 +37,11 @@ async function getAllTraining(){
     return allTraining;
 }
 
-export { createTraining, getTrainingById, getTrainingByName, getAllTraining }
+async function getTrainingsByTimeRange(startTime, endTime){
+    const training = await Training.find( { createdAt: { $gt: startTime, $lt: endTime } } )
+    console.log("training: ", training)
+
+    return training; 
+}
+
+export { createTraining, getTrainingById, getTrainingByName, getAllTraining , getTrainingsByTimeRange}
