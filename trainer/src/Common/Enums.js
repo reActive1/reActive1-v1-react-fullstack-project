@@ -69,4 +69,33 @@ export const timeOptions = [
     },
 ]
 
+
+export const MotivationList =
+  [ "What doesn't kill you, make you stronger",
+   "Blood, sweat and respect. first two you give. last one you earn.",
+   "Every strike brings me closer to the next home run.",
+   "Don’t worry about looking good – worry about achieving your goals.",
+   "The last three or four reps is what makes the muscle grow.",
+   "All progress takes place outside the comfort zone.",
+   "Whether you think you can, or you think you can’t, you’re right.",
+   "Action is the foundational key to all success.",
+   "Well done is better than well said.",
+   "All our dreams can come true if we have the courage to pursue them.",
+   "What hurts today makes you stronger tomorrow.",
+   "If you want something you’ve never had, you must be willing to do something you’ve never done.",
+   "Success is walking from failure to failure with no loss of enthusiasm.",
+   "Your body can stand almost anything. It’s your mind that you have to convince.",
+   "Train insane or remain the same.",
+   "Push yourself because no one else is going to do it for you",
+   "Good things come to those who sweat.",
+   "The body achieves what the mind believes",
+   "If you still look good at the end of your workout, you didn’t train hard enough",
+   "When you feel like quitting think about why you started.",
+   "Making excuses burns zero calories per hour.",
+   "Don’t limit your challenges, challenge your limits.",
+   "Remember, Rome wasn’t built in a day. Work hard, good results will come.",
+   "Go the extra mile. It’s never crowded.",
+   "Don’t wish for a good body, work for it."
+ ]
+
 export const restImgSource = "https://res.cloudinary.com/dudxklqht/image/upload/v1610909966/users_exercises/Rest_xiepyg.gif";

@@ -150,7 +150,7 @@ class ChooseTotalTime extends React.Component {
                                           <div className="ContinueLinkRandomExercises animation-box">
                                               <NavLink className="btn btn-primary" to = {{
                                                        pathname: `/Timer/`,
-                                                       props: { exercisesArray: this.state.randomExerciseImages }
+                                                       props: { exercisesArray: this.state.randomExerciseImages, restTime: this.state.restTime}
                                                     }}>
                                                     <span></span>
                                                     <span></span>

@@ -14,7 +14,7 @@ class AboutUs extends React.Component {
     render(){
         const elements = [
             {'name': "Racheli","role":"Web developer",'img': Racheli,'website':"https://racheliver.github.io/",'github':"https://github.com/racheliver",'linkedin': "https://www.linkedin.com/in/racheli-verechzon-5343bb123/","mail":"mailto:racheliver@gmail.com","about":"Developer of business websites and expert in improving website performance through Vue.js / React."},
-            {'name': "Keren","role":"Web Developer",'img': Keren,'about': "about","website":"website","linkedin":"linkedin","github":"github","mail":"mail"},
+            {'name': "Keren","role":"Fullstack Developer",'img': Keren,'about': "Software engineer with passion for developing new products, both independently and as a part of a team","website":"website","linkedin":"https://www.linkedin.com/in/keren-omero/","github":"github","mail":"kerenomero@gmail.com"},
             {'name': "Yael","role":"Web Developer",'img': Yael,'about': "about","website":"website","linkedin":"linkedin","github":"github","mail":"mail"},
             {'name': "Stav","role":"Web Developer",'img': Stav,  'about': "about","website":"website","linkedin":"linkedin","github":"github","mail":"mail"},
             {'name': "Shiran","role":"Web Developer",'img': Shiran,'about': "about","website":"website","linkedin":"linkedin","github":"github","mail":"mail"},

@@ -52,16 +52,13 @@ class ExerciseForm extends React.Component {
     this.filterExerciseByCategory(categories[0].key)
   }
 
-  randomFunctionHandler = (e) => {
-    e.preventDefault();
+  randomFunctionHandler = async (event) => {
+    event.preventDefault()
     const randomExercise = getRandomExercise(this.state.categoryToExerciseMapper[this.state.type]);
-    console.log("++++++++++",this.state.categoryToExerciseMapper[this.state.type])
     const timeOptionsValues = timeOptions.map(option => option.value)
     const randomTimeId = Math.floor(Math.random() * timeOptionsValues.length); 
-    console.log(
-      `***random name: ${JSON.stringify(randomExercise)}, time: ${timeOptionsValues[randomTimeId]}`
-    );
-    this.setState({ name: randomExercise.name, imgSource: randomExercise.imgSource, time: timeOptionsValues[randomTimeId], repeats: 1 }, this.sumbitExerciseHandler(e));
+    
+    this.setState({ name: randomExercise.name, imgSource: randomExercise.imgSource, time: timeOptionsValues[randomTimeId], repeats: 1 });
     
   };
 
@@ -69,7 +66,7 @@ class ExerciseForm extends React.Component {
     var dropdown_options = [];
     this.state.categoryToExerciseMapper[category].forEach(exercise => dropdown_options.push({key: exercise.name, text:exercise.name, value: exercise.name}));
     
-    this.setState({exercises_by_category: dropdown_options});
+    this.setState({exercises_by_category: dropdown_options}); 
     this.setState({type: category})
 
     console.log("current drop down:", dropdown_options)
@@ -77,6 +74,9 @@ class ExerciseForm extends React.Component {
 
   filterExerciseByCategoryOnEvent = (e, data) => {
     this.filterExerciseByCategory(e.value);
+    let excrciseName = this.state.categoryToExerciseMapper[e.value][0];
+    this.setState({name: excrciseName.name});
+    
   };
 
   sumbitExerciseHandler = (e) => {
@@ -142,7 +142,7 @@ class ExerciseForm extends React.Component {
                             this.setState({ name: data.value });
                           }}
                           options={this.state.exercises_by_category}
-                          defaultValue={this.state.name}
+                          value={this.state.name}
                         />
                       </Form.Field>
                       <Form.Field inline>
@@ -154,14 +154,14 @@ class ExerciseForm extends React.Component {
                             this.setState({ time: data.value });
                           }}
                           options={timeOptions}
-                          defaultValue={this.state.time}
+                          value={this.state.time}
                         />
                       </Form.Field>
                       <Form.Field inline>
                         <Label pointing="right">Select repeats</Label>
                         <Input
                           type="number"
-                          defaultValue={this.state.repeats}
+                          value={this.state.repeats}
                           onChange={(event, data) => {
                             this.setState({ repeats: parseInt(data.value) });
                           }}
@@ -176,7 +176,7 @@ class ExerciseForm extends React.Component {
                           className="random-exercise-button"
                         >
                           {" "}
-                          Random exercise
+                          Random Exercise
                           <Icon name="random" />
                         </Button>
                         <Button

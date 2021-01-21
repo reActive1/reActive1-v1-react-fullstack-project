@@ -27,7 +27,7 @@ const ExerciseList = ({chosenExercisesArray, updateExercisesArray, totalTraining
         setModal(!modal);  
         try {
                await axios.post('http://localhost:5000/api/savedTrains',
-               {trainingName, authorTraining ,randomTraining ,savedTraining, totalTrainingTime, chosenExercisesArray});
+               {trainingName, authorTraining , restTime ,randomTraining ,savedTraining, totalTrainingTime, chosenExercisesArray});
            }
            catch(error){
                console.log(error.response.data);

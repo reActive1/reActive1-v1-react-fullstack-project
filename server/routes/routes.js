@@ -16,6 +16,7 @@ router.post('/savedTrains', async (req, res) => {
     const newSavedTrain = {
         name:req.body.trainingName,
         author:req.body.authorTraining,
+        restTime: req.body.restTime,
         isRandom:req.body.randomTraining,
         isSaved:req.body.savedTraining,
         totalTimeSec:req.body.totalTrainingTime,
