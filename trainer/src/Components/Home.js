@@ -16,12 +16,11 @@ class Home extends React.Component {
 						<p className="font-2">Let your dream come true!<br /> By using the reactive app you can train and get the results you always wanted.</p>
 					</header>
 
-					<NavLink className="button big scrolly" to = {{pathname: `/ChooseTotalTime`}}>
-						<span></span>
-						<span></span>
-						<span></span>
-						<span></span>
-						Start Train
+					<NavLink className="button big scrolly mx-2" to = {{pathname: `/SignIn`}}>
+						Sign In
+					</NavLink>
+					<NavLink className="button big scrolly mx-2" to = {{pathname: `/SignUp`}}>
+						Sign Up
 					</NavLink>
 				</div>
 			</section>
