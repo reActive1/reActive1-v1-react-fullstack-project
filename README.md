@@ -1,6 +1,5 @@
 ![ReActive logo](./trainer/src/Common/reActive.png)
 
-
 # ReActive
 > Welcome to our fitness training application. 
 
@@ -13,15 +12,13 @@
 * [Info](#Info)
 
 ## General info
-ReActive allows you to create your own trainings having control on the duration of the training and your favorite 
-
-exercises. 
+ReActive allows you to create your own trainings while having control on the duration of the training and your favorite exercises.  
 If you like surprises, and like to make it easy and fast, you can also choose a random training.
 
 ## Screenshots
-![Screenshot 1](./img/screenshot-1.png)
-![Screenshot 2](./img/screenshot-2.png)
-![Screenshot 3](./img/screenshot-3.png)
+![Screenshot 1](./img/screenshot1.png)
+![Screenshot 2](./img/screenshot2.png)
+![Screenshot 3](./img/screenshot3.png)
 
 ## Technologies
 * React
