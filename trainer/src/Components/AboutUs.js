@@ -18,7 +18,7 @@ class AboutUs extends React.Component {
             {'name': "Yael","role":"Web Developer",'img': Yael,'about': "about","website":"website","linkedin":"linkedin","github":"github","mail":"mail"},
             {'name': "Stav","role":"Web Developer",'img': Stav,  'about': "about","website":"website","linkedin":"linkedin","github":"github","mail":"mail"},
             {'name': "Shiran","role":"Web Developer",'img': Shiran,'about': "about","website":"website","linkedin":"linkedin","github":"github","mail":"mail"},
-            {'name': "Adi","role":"Web Developer",'img': Adi,'about': "about","website":"website","linkedin":"linkedin","github":"github","mail":"mail"}
+            {'name': "Adi","role":"Senior Backend Developer",'img': Adi,'about': "Experienced backend developer (node.js/c#), technology lover who crossed to the dark side and played with the client side.","website":"website","linkedin":"https://www.linkedin.com/in/adi-regev-53279a53/","github":"https://github.com/adirDev","mail":"mailto:adi.kor1@gmail.com"}
         ];
         return (
             <div>

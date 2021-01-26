@@ -1,12 +1,10 @@
 import React from "react";
-import { Exercises } from "../Common/Enums";
 import "./CssComponents/ExerciseForm.css";
 import "semantic-ui-css/semantic.min.css";
 import { Dropdown, Label, Form, Input, Button, Icon } from "semantic-ui-react";
 import { getRandomExercise } from "./RandomExercise";
 import { timeOptions } from "../Common/Enums";
 import ExerciseList from "./ExerciseList";
-import { Container, Row, Col } from "shards-react";
 import axios from "axios";
 
 class ExerciseForm extends React.Component {
@@ -14,7 +12,7 @@ class ExerciseForm extends React.Component {
     super(props);
 
     this.state = {
-      exercises_by_category: [],
+      excercisesByCategory: [],
       categories: null,
       categoryToExerciseMapper: {},
       chosenExercisesArray: [],
@@ -57,19 +55,19 @@ class ExerciseForm extends React.Component {
     const randomExercise = getRandomExercise(this.state.categoryToExerciseMapper[this.state.type]);
     const timeOptionsValues = timeOptions.map(option => option.value)
     const randomTimeId = Math.floor(Math.random() * timeOptionsValues.length); 
-    
+
     this.setState({ name: randomExercise.name, imgSource: randomExercise.imgSource, time: timeOptionsValues[randomTimeId], repeats: 1 });
     
   };
 
   filterExerciseByCategory(category){
-    var dropdown_options = [];
-    this.state.categoryToExerciseMapper[category].forEach(exercise => dropdown_options.push({key: exercise.name, text:exercise.name, value: exercise.name}));
+    var dropdownOptions = [];
+    this.state.categoryToExerciseMapper[category].forEach(exercise => dropdownOptions.push({key: exercise.name, text:exercise.name, value: exercise.name}));
     
-    this.setState({exercises_by_category: dropdown_options}); 
+    this.setState({excercisesByCategory: dropdownOptions}); 
     this.setState({type: category})
 
-    console.log("current drop down:", dropdown_options)
+    console.log("current drop down:", dropdownOptions)
   }
 
   filterExerciseByCategoryOnEvent = (e, data) => {
@@ -141,7 +139,7 @@ class ExerciseForm extends React.Component {
                           onChange={(event, data) => {
                             this.setState({ name: data.value });
                           }}
-                          options={this.state.exercises_by_category}
+                          options={this.state.excercisesByCategory}
                           value={this.state.name}
                         />
                       </Form.Field>

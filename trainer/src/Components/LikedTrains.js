@@ -3,6 +3,7 @@ import "./CssComponents/LikedTrains.css";
 import {Icon, Button} from 'semantic-ui-react'
 import { Container, Row, Col } from "shards-react";
 import {NavLink} from 'react-router-dom';
+import axios from "axios";
 
 class LikedTrains extends React.Component {
     constructor(props) {
@@ -11,15 +12,18 @@ class LikedTrains extends React.Component {
              savedTrainingFromDB: [],
              chosenLikedTrainingByName: [],
              restTimeChosenLikedTraining: 0,
-             isUpdatedChosenSavedTraining: false
+             isUpdatedChosenSavedTraining: false,
+             chosenTrainingId: "",
+             totalTrainingTime: 0,
          }
       this.updateChosenSavedTraining = this.updateChosenSavedTraining.bind(this);
       this.getAllTraining = this.getAllTraining.bind(this);
+      this.handleStartTrain = this.handleStartTrain.bind(this);
    }
 
   async getAllTraining(){
          try {
-             const response = await fetch('http://localhost:5000/api/allTraining');
+             const response = await fetch('http://localhost:5000/api/allSavedTrainings');
              const data = await response.json();
              console.log(data);
              this.setState({
@@ -29,6 +33,16 @@ class LikedTrains extends React.Component {
          catch(error){
              console.log(error);
          }
+  }
+
+  async handleStartTrain()  { 
+    try {
+        await axios.post('http://localhost:5000/api/startTraining', {userId: "00000000000", trainingId: this.state.chosenTrainingId, totalTrainingTime: this.state.totalTrainingTime});
+    }
+    catch(error){
+        console.log(error.response.data);
+        console.log(error.response.status);
+    }
   }
 
  componentDidMount() {
@@ -41,10 +55,11 @@ updateChosenSavedTraining = (trainingName) => {
     });
     this.state.savedTrainingFromDB.map((item, index) => {
             if(item.name === trainingName) {
-                    console.log(item.exerciseList)
                     this.setState({
                            restTimeChosenLikedTraining: item.restTime,
-                          chosenLikedTrainingByName: item.exerciseList
+                          chosenLikedTrainingByName: item.exerciseList,
+                          chosenTrainingId: item._id, 
+                          totalTrainingTime: item.totalTrainingTime
                         });
                 }
         return null })
@@ -92,7 +107,7 @@ render(){
                                                                 pathname: `/Timer/`,
                                                                 props: { exercisesArray: this.state.chosenLikedTrainingByName, restTime: this.state.restTimeChosenLikedTraining}
                                                                       }}>
-                                                          <Button icon labelPosition="right" color="blue">START TRAINING<Icon name="angle double right" /></Button>
+                                                          <Button icon labelPosition="right" color="blue" onClick={this.handleStartTrain}>START TRAINING<Icon name="angle double right" /></Button>
                                                      </NavLink>
                                                     </Container>)
                                             : null}
