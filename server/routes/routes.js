@@ -6,6 +6,8 @@ import * as userStore from '../store/userFuncs.js';
 import * as contactStore from '../store/contactFunc.js';
 import * as exerciseStore  from '../store/exerciseFuncs.js';
 import * as trainingStore from '../store/trainingFuncs.js';
+import * as userTrainingStore from '../store/userTrainingFuncs.js';
+import * as trainingStatistics from '../services/trainingStatics.js';
 
 //-------- here we handle all get, post, etc req
 
@@ -24,6 +26,21 @@ router.post('/savedTrains', async (req, res) => {
     };
 
     await trainingStore.createTraining(newSavedTrain)
+    .then(data => {
+        res.json(data)
+    })
+    .catch(err => {
+        res.json(err)
+    });
+});
+
+router.post('/startTraining', async (req, res) => {
+    const train = {
+        userId:req.body.userId,
+        trainingId:req.body.trainingId,
+        totalTimeSec: req.body.totalTrainingTime
+    };
+    await trainingStore.startTraining(train)
     .then(data => {
         res.json(data)
     })
@@ -116,7 +133,6 @@ router.post('/newExercise', async (req, res) => {
 router.post('/newCategory', async (req, res) => {
     try{
         const newCategory = req.body;
-        console.log("new Cat", newCategory)
         const category = await exerciseStore.createCategory(newCategory);
        
         res.json(category);
@@ -145,7 +161,6 @@ router.get('/exercises', async (req, res) => {
 
 router.get('/exercisesByCategory', async (req, res) => {
     try {
-        
         const exercises = await exerciseStore.getExercisesByCategory(req.query);
         const editedExercises = exercises.map(ex => {return {name: ex.name, imgSource:ex.imgSource}});
         
@@ -182,9 +197,28 @@ router.get('/allTraining', async (req, res) => {
     res.send(resources);
  });
 
+ router.get('/allSavedTrainings', async (req, res) => {
+    const resources= await trainingStore.getAllSavedTrainings()
+    res.send(resources);
+ });
+
+
+ router.get('/trainingsByUser', async (req, res) => {
+    const trainings = await userTrainingStore.getTrainingsByUser(req.query);
+    console.log("trainings by times: ", trainings)
+    res.send(trainings)
+ });
+
  router.get('/trainingsByTimes', async (req, res) => {
-    const trainings = await trainingStore.getTrainingsByTimeRange();
-    
+    const trainings = await userTrainingStore.getTrainingsByTimeRange(req.query);
+
+    res.send(trainings)
+});
+
+ router.get('/trainingsOfWeek', async (req, res) => {
+   const trainings = await trainingStatistics.calcTrainingTimeInDateRange(req.query);
+
+   res.send(trainings)
  });
 
 export { router };

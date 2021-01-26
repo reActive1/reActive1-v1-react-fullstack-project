@@ -5,150 +5,160 @@ import {
 import Card from 'react-bootstrap/Card';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { Row, Col, Container } from 'reactstrap';
+import axios from "axios";
 
-const data = [
-  {
-    name: 'Sunday', uv: 20, pv: 20, amt: 20,
-  },
-  {
-    name: 'Monday', uv: 20, pv: 20, amt: 20,
-  },
-  {
-    name: 'Tuseday', uv: 20, pv: 9800, amt: 2290,
-  },
-  {
-    name: 'Wedensday', uv: 20, pv: 3908, amt: 2000,
-  },
-  {
-    name: 'Thursday', uv: 20, pv: 4800, amt: 2181,
-  },
-  {
-    name: 'Friday', uv: 20, pv: 3800, amt: 2500,
-  },
-  {
-    name: 'Saturday', uv: 20, pv: 4300, amt: 2100,
-  },
-];
-
-const lastWeekData = [ {name: 'Sunday', value:20 }, {name: 'Monday', value: 20}, {name: 'Tuseday', value: 40}, {name: 'Wedensday', value: 60},
-{name: 'Thursday', value:60 }, {name: 'Friday', value:40 }, {name: 'Saturday', value:20 }]
 
 export default class Overview extends PureComponent {
   static jsfiddleUrl = 'https://jsfiddle.net/alidingling/xqjtetw0/';
 
-constructor(props){
+  constructor(props){
   super(props);
-
+  
   this.state = {
-    startDate: new Date()
+    startDate: new Date(),
+    weekData: [],
+    numberOfTrainingsCurMonth: 0,
+    totalNumberOfTrainings: 0,
   }
 }
+ 
+async componentDidMount() {
+  const d = new Date(Date.now());
+  const startMonthDate =   new Date(d.setMonth(d.getMonth() - 1));
+  const trainingsLastMonth = await axios.get("http://localhost:5000/api/trainingsByTimes", { params: { userId: "0000000000000", startTime: startMonthDate, endTime: Date.now() } });
+  this.setState({numberOfTrainingsCurMonth: trainingsLastMonth.data.length});
+  const totalNumberOfTrainings = await axios.get("http://localhost:5000/api/trainingsByUser", { params: { userId: "0000000000000" }})
+  this.setState({totalNumberOfTrainings:totalNumberOfTrainings.data.length});
+}
 
-componentDidMount() {
-  const URL = "http://localhost:5000/api/trainingsByTimes";
+async handleSelectedDate() {
+  const endTime = new Date(new Date().setDate(this.state.startDate.getDate()+6))
+  const trainingsByDays = await axios.get("http://localhost:5000/api/trainingsOfWeek", { params: { userId: "0000000000000", startTime: this.state.startDate, endTime: endTime } });
+  const dayOfDate = new Date(this.state.startDate).getDay();
+  const weekData = [ {name: (dayOfDate)%7, value: trainingsByDays.data[(dayOfDate)%7] }, {name: (dayOfDate+1)%7, value:  trainingsByDays.data[(dayOfDate+1)%7] }, {name: (dayOfDate+2)%7, value: trainingsByDays.data[(dayOfDate+2)%7]}, {name: (dayOfDate+3)%7, value: trainingsByDays.data[(dayOfDate+3)%7]},
+  {name: (dayOfDate+4)%7, value:trainingsByDays.data[(dayOfDate+4)%7] }, {name: (dayOfDate+5)%7, value:trainingsByDays.data[(dayOfDate+5)%7] }, {name: (dayOfDate+6)%7, value:trainingsByDays.data[(dayOfDate+6)%7] }]
+  this.setState({weekData: weekData});
 
 }
 
+render() {
+  return (
+    <div className="container card-container">
+    <div className="myCard">
+      <div className="row card-row">
+        <div className="col-md-6">
+          <div className="myLeftCtn">
+            <header className="fs-30 px-4">
+              Overview
+            </header>
+            <form className="exercise-form">
+              <div>
+          <Card style={{ width: '21rem' }} className="card-date">
+          <Card.Body>
+            <Card.Title>Pick a date</Card.Title>
+            <DatePicker
+              selected={this.state.startDate}
+              onChange={date => this.setState({startDate: date}, this.handleSelectedDate)}
+              inline
+            />
+          </Card.Body>
+        </Card>
+     </div>
+                </form>
+              </div>
+            </div>
+              <div className="col-md-6">
+              <div className="myRightCtn">
+                        <Card style={{ width: '35rem' }} className="card-lastweek">
+          <Card.Body>
+            <Card.Title>Your weekly achievements:</Card.Title>
+            <Card.Subtitle> pick a date to see your achievements</Card.Subtitle>
+            <Card.Text>
+                 Here you can check out your daily training duration
+            </Card.Text>
+        ‎    <div className='week-line'>
+              <LineChart width={300} height={100} data={this.state.weekData}>
+              <Line type="monotone" dataKey="value" stroke="#8884d8" strokeWidth={2} />
+              </LineChart>
+              </div>
+              <br></br>
+              <Card.Subtitle>
+              Extra statistics:
+            </Card.Subtitle>
+            <Card.Text>
+            <div>total trainings of month: {this.state.numberOfTrainingsCurMonth}</div>
+            <div>total trainings since registration: {this.state.totalNumberOfTrainings}</div>
+            </Card.Text>
+          </Card.Body>
+        </Card>
+         </div>
+      </div>
+    </div>
+    </div>
+    </div>
+
+  );
+  }}
 
 
 
-
-
-  render() {
+  {/* render() {
     return (
       <div>
-        <Card style={{ width: '21rem' }} className="card-date">
-  <Card.Body>
-    <Card.Title>Pick a date</Card.Title>
-    <DatePicker
-      selected={this.state.startDate}
-      onChange={date => this.setState({startDate: date})}
-      inline
-    />
-  </Card.Body>
-</Card>
-        <Card style={{ width: '25rem' }} className="card-lastweek">
-  <Card.Body>
-    <Card.Title>Your weekly achievements:</Card.Title>
-    <Card.Text>
-      Here you can see how long you've been training every day of last week (in minutes)
-    </Card.Text>
-‎    <div className='week-line'>
-      <LineChart width={300} height={100} data={lastWeekData}>
-      <Line type="monotone" dataKey="value" stroke="#8884d8" strokeWidth={2} />
-       </LineChart>
-       </div>
-  </Card.Body>
-</Card>
-
-
-<Card style={{ width: '40rem' }}>
-  <Card.Body>
-    <Card.Title>Card Title</Card.Title>
-    <Card.Text>
-      Some quick example text to build on the card title and make up the bulk of
-      the card's content.
-    </Card.Text>
-    <div className='month-graph'>
-      <LineChart
-        width={500}
-        height={300}
-        data={data}
-        margin={{
-          top: 5, right: 30, left: 20, bottom: 5,
-        }}
-      >
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" />
-        <YAxis />
-        <Tooltip />
-        <Legend />
-        <Line type="monotone" dataKey="pv" stroke="#8884d8" activeDot={{ r: 8 }} />
-        <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
-      </LineChart>
-      </div>  </Card.Body>
-</Card>
-
+        <Container width="70%">
+          <Row className="my-4">
+            <Col xs="3">
+              <Card>
+              <Card.Body>
+                <Card.Subtitle tag="h6" className="mb-2 text-muted">Total trainings this month</Card.Subtitle>
+                <Card.Title tag="h2" className="text-center">{this.state.numberOfTrainingsCurMonth}</Card.Title>
+                { <Card.Text className="mt-5">You rock! keep training!</Card.Text> }
+              </Card.Body>
+             </Card>
+            </Col>
+            <Col xs="3">
+              <Card>
+              <Card.Body>
+                <Card.Subtitle tag="h6" className="mb-2 text-muted">Total trainings since registration!</Card.Subtitle>
+                <Card.Title tag="h2" className="text-center">{this.state.totalNumberOfTrainings}</Card.Title>
+                { <Card.Text className="mt-5">This card has supporting text below as a natural lead-in to additional content.</Card.Text> }
+              </Card.Body>
+             </Card>
+            </Col>
+          </Row>
+        <Row>
+          <Col xs="4">        
+            <Card style={{ width: '21rem' }} className="card-date">
+            <Card.Body>
+              <Card.Title>Pick a date</Card.Title>
+              <DatePicker
+                selected={this.state.startDate}
+                onChange={date => this.setState({startDate: date}, this.handleSelectedDate)}
+                inline
+              />
+            </Card.Body>
+          </Card>
+        </Col>
+        <Col xs="4">
+          <Card style={{ width: '35rem' }} className="card-lastweek">
+            <Card.Body>
+              <Card.Title>Your weekly achievements:</Card.Title>
+              <Card.Subtitle> pick a date to see your achievements</Card.Subtitle>
+              <Card.Text>
+                Here you can see how long you've been training every day of the week starting from the day you chose
+              </Card.Text>
+          ‎    <div className='week-line'>
+                <LineChart width={300} height={100} data={this.state.weekData}>
+                <Line type="monotone" dataKey="value" stroke="#8884d8" strokeWidth={2} />
+                </LineChart>
+                </div>
+            </Card.Body>
+          </Card>
+        </Col>
+</Row>
+</Container>
        </div>
     );
   }
-}
-
-
-
-
-// import React from 'react';
-// import axios from 'axios';
-
-// class Overview extends React.Component {
-
-// // todo: use compnentDidMount to read data from db
-//   tryGetExercises = async () => {
-//     // console.log("in clienttttt")
-//     // const newCatgory = {
-//     //   name: "Chest exercises"
-//     // }
-//     // const res = await axios.post("http://localhost:5000/api/newCategory", newCatgory);
-//     // console.log("res: ", res)
-
-//     // axios.all([
-//     //   axios.get('https://api.github.com/users/mapbox'),
-//     //   axios.get('https://api.github.com/users/phantomjs')
-//     // ])
-
-//     //todo: maybe use axios.all for simulatnious req
-//     const res2 = await axios.get("http://localhost:5000/api/exercisesByCategory",{
-//       params: {category: "Chest exercises"}
-//     })
-//     console.log("res2: ", res2)
-
-//   };
-
-
-
-//     render(){
-//         return <div className = "Overview" onClick={this.tryGetExercises}><button>!@#!@#!@#!@#!</button></div>
-//     }
-// }
-
-// export default Overview; 
+} */}

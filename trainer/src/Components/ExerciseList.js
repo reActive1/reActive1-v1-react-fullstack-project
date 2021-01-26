@@ -11,7 +11,7 @@ const ExerciseList = ({chosenExercisesArray, updateExercisesArray, totalTraining
     const [trainingName, setTrainingName] = useState("");
     const [modal, setModal] = useState(false);
     const [randomTraining] = useState(false);
-    const [savedTraining] = useState(true);
+    const [savedTraining, setSavedTraining] = useState(false);
     const [authorTraining] = useState("USER");
 
     const toggle = () => setModal(!modal);
@@ -23,20 +23,32 @@ const ExerciseList = ({chosenExercisesArray, updateExercisesArray, totalTraining
         return totalExerciseDuration;
     }
 
-    const saveTraining = async saveTrainingWithNameIntoDB => { 
+    const saveTraining = async () => { 
         setModal(!modal);  
+        let newTrainingId = ""
         try {
-               await axios.post('http://localhost:5000/api/savedTrains',
+            newTrainingId = await axios.post('http://localhost:5000/api/savedTrains', // todo: ---------maybe change it
                {trainingName, authorTraining , restTime ,randomTraining ,savedTraining, totalTrainingTime, chosenExercisesArray});
+               console.log("---------------------------------------------------------------new training id: ", newTrainingId.data)
+               await axios.post('http://localhost:5000/api/startTraining', {userId: "00000000000", trainingId: newTrainingId.data, totalTrainingTime});
            }
            catch(error){
                console.log(error.response.data);
                console.log(error.response.status);
            }
+           try {
+            console.log("---------------------------------------------------------------new training id: ", newTrainingId.data)
+            await axios.post('http://localhost:5000/api/startTraining', {userId: "00000000000", trainingId: newTrainingId.data, totalTrainingTime});
+        }
+        catch(error){
+            console.log(error.response.data);
+            console.log(error.response.status);
+        }
     }
 
     const handleAddTrainingName = (trainingName) => {
          setTrainingName(trainingName.target.value)
+         setSavedTraining(true);
     }
 
     const convertAndDisplaySec = (timeInSec) => {
@@ -88,7 +100,7 @@ const ExerciseList = ({chosenExercisesArray, updateExercisesArray, totalTraining
             <NavLink to = {isDurationFitTime ? { pathname: `/Timer/`,
                              props: { exercisesArray: chosenExercisesArray, restTime: restTime }
                            } : "#"}>
-                  <Button icon labelPosition="right" color="blue"  disabled={!isDurationFitTime}>START TRAINING<Icon name="angle double right" /></Button>
+                  <Button icon labelPosition="right" color="blue"  disabled={!isDurationFitTime} onClick={saveTraining}>START TRAINING<Icon name="angle double right" /></Button>
             </NavLink>
             {!isDurationFitTime && <Label basic color='red' pointing='left'>{msgToShow}</Label>}
             </Row>

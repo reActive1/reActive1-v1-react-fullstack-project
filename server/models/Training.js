@@ -13,4 +13,6 @@ const trainingSchema = new Schema({
     exerciseList: [{ exerciseId: String, name: String, time: Number, repeats: Number, imgSource: String}],  // duration instead time. maybe remove exerciseName
 });
 
-export default mongoose.model('trainings', trainingSchema);
+const trainings = mongoose.model('trainings', trainingSchema);
+
+export default { trainings };
