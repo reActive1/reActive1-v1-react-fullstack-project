@@ -17,7 +17,7 @@ class AboutUs extends React.Component {
             {'name': "Keren","role":"Fullstack Developer",'img': Keren,'about': "Software engineer with passion for developing new products, both independently and as a part of a team","website":"website","linkedin":"https://www.linkedin.com/in/keren-omero/","github":"github","mail":"kerenomero@gmail.com"},
             {'name': "Yael","role":"Web Developer",'img': Yael,'about': "about","website":"website","linkedin":"linkedin","github":"github","mail":"mail"},
             {'name': "Stav","role":"Web Developer",'img': Stav,  'about': "about","website":"website","linkedin":"linkedin","github":"github","mail":"mail"},
-            {'name': "Shiran","role":"Web Developer",'img': Shiran,'about': "about","website":"website","linkedin":"linkedin","github":"github","mail":"mail"},
+            {'name': "Shiran","role":"Fullstack Developer",'img': Shiran,'about': "Technology enthusiast, passionate about software development. Love challenges, a team player with a can-do attitude","website":"website","linkedin":"https://www.linkedin.com/in/shiran-steinberg-48801686/","github":"https://github.com/steinshi","mail":"mailto:shiranste@gmail.com"},
             {'name': "Adi","role":"Senior Backend Developer",'img': Adi,'about': "Experienced backend developer (node.js/c#), technology lover who crossed to the dark side and played with the client side.","website":"website","linkedin":"https://www.linkedin.com/in/adi-regev-53279a53/","github":"https://github.com/adirDev","mail":"mailto:adi.kor1@gmail.com"}
         ];
         return (
