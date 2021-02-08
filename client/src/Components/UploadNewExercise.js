@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
-import { Dropdown, Header } from 'semantic-ui-react'
+import { Dropdown } from 'semantic-ui-react'
 import Loader from 'react-loader-spinner'
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import './CssComponents/UploadNewExercise.css';
@@ -8,7 +8,7 @@ import * as IoIo from "react-icons/io";
 
 
 export default function UploadNewExercise() {
-    const [fileInputState, setFileInputState] = useState('');
+    const [fileInputState] = useState('');
     const [previewSource, setPreviewSource] = useState('');
     const [categoryName, setCategoryName] = useState("Back exercises");
     const [exerciseName, setExerciseName] = useState('');
@@ -56,7 +56,7 @@ export default function UploadNewExercise() {
         }
         console.log("new exercise: ", newExercise)
         try {
-            const req =  await axios.post('http://localhost:5000/api/newExercise',newExercise);
+            await axios.post('http://localhost:5000/api/newExercise',newExercise);
             setSendData(false);
             alert("You did it!")
         } catch(error){

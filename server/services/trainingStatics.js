@@ -10,7 +10,7 @@ async function calcTrainingTimeInDateRange(params){
 }
 
 async function calcTotalTrainingOfUserLastMonth(parmas){
-    const trainings = await getTrainingsByTimeRange(params); // todo: should be userId instead
+    const trainings = await getTrainingsByTimeRange(params); 
 
     return trainings;
 }

@@ -1,10 +1,7 @@
-import React, { Component } from 'react'
+import React from 'react'
 import "./CssComponents/SignForm.css"
 import axios from 'axios';
 import { Form, Radio } from 'semantic-ui-react'
-import * as ImIcons from "react-icons/im";
-import Input from '@material-ui/core/Input';
-
 
 export class SignUp extends React.Component {
 
@@ -78,7 +75,7 @@ export class SignUp extends React.Component {
         }
 
         try{
-            const res = await axios.post('http://localhost:5000/api/signup', registered);
+            const res = await axios.post('http://localhost:5000/api/signUp', registered);
             if (res.data === -1){
                 alert("username already exists")
             }
@@ -88,7 +85,6 @@ export class SignUp extends React.Component {
         }
         catch(error){
             console.log(error.response.data);
-            console.log(error.response.status);
         }   
     }
 
@@ -120,13 +116,12 @@ export class SignUp extends React.Component {
                              value={this.state.email}
                              className='form-control form-group'
                              />
-                             <input type ={this.state.passHidden ? 'password' : 'text'} //ImEye ImEyeBlocked
+                             <input type ={this.state.passHidden ? 'password' : 'text'} 
                              placeholder='password'
                              onChange={this.changePassword}
                              value={this.state.password}
                              className='form-control form-group'
                              />
-                            {/* <button className="fa fa-eye"  onClick={this.toggleShow}></button> */}
                             <Form.Field>
                               Gender: <b>{this.state.gender}</b>
                             </Form.Field>

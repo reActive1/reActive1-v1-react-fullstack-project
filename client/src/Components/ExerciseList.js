@@ -34,7 +34,6 @@ const ExerciseList = ({chosenExercisesArray, updateExercisesArray, totalTraining
            }
            catch(error){
                console.log(error.response.data);
-               console.log(error.response.status);
            }
            try {
             console.log("---------------------------------------------------------------new training id: ", newTrainingId.data)
@@ -42,7 +41,6 @@ const ExerciseList = ({chosenExercisesArray, updateExercisesArray, totalTraining
         }
         catch(error){
             console.log(error.response.data);
-            console.log(error.response.status);
         }
     }
 
@@ -58,7 +56,6 @@ const ExerciseList = ({chosenExercisesArray, updateExercisesArray, totalTraining
         return displayCount;
     }
 
-    //consider removing one restTime from total count
     const isExercisesDurationFitTotalTime = () => {
         const actualDiff = totalTrainingTimeInSec - totalExerciseDuration;
         const timeLeftInMin = convertAndDisplaySec(actualDiff);

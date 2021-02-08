@@ -24,11 +24,10 @@ class ContactUs extends React.Component {
     async onSubmit(){
         const { fullName, email, phone, message }  = this.state;
         try{
-            const res = await axios.post('http://localhost:5000/api/contactus', { fullName, email, phone, message });
+            await axios.post('http://localhost:5000/api/contactus', { fullName, email, phone, message });
         }
         catch(error){
             console.log(error.response.data);
-            console.log(error.response.status);
         }   
     }
 

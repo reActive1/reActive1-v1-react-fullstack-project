@@ -3,8 +3,8 @@ export const getRandomExercise = (Stock) => {
         for (const [key] of Object.entries(Stock)) {
                 arr.push(key)
         }
-        var ind = Math.floor(Math.random()*(arr.length));
-        return Stock[arr[ind]];
+        var index = Math.floor(Math.random()*(arr.length));
+        return Stock[arr[index]];
 }
 
 export const getRandomMotivationString = (MotivationStrings) => {
@@ -12,6 +12,6 @@ export const getRandomMotivationString = (MotivationStrings) => {
         for (const [key] of Object.entries(MotivationStrings)) {
         arr.push(key)
         }
-        var ind = Math.floor(Math.random()*(arr.length));
-        return MotivationStrings[ind];
+        var index = Math.floor(Math.random()*(arr.length));
+        return MotivationStrings[index];
 }

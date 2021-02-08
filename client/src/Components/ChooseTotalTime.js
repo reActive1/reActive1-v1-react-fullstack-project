@@ -2,7 +2,6 @@ import React from "react";
 import "./CssComponents/ChooseTotalTime.css";
 import "./CssComponents/Btn-ChooseTotalTime.css";
 import {NavLink} from 'react-router-dom';
-import { Button as ButtonSemanticUI } from "semantic-ui-react";
 import {Prompt } from 'react-router-dom';
 import { getRandomExerciseTraining } from './RandomExerciseTraining';
 import axios from "axios";
@@ -46,13 +45,18 @@ class ChooseTotalTime extends React.Component {
     };
 
   async componentDidMount() {
-    const res = await axios.get("http://localhost:5000/api/exercises");
-    this.setState({exercises: res.data})
-    let tempRandomExercises = getRandomExerciseTraining(this.state.exercises, this.state.trainingtime/60000, this.state.restTime);
-    this.setState({randomExerciseImages: tempRandomExercises})
-    window.addEventListener('beforeunload', this.beforeunload.bind(this));
-    this.createClickListenersForButtons();
-    this.createClickListenersForButtons("bar2-outer", "bar2-grey");
+    try{
+      const res = await axios.get("http://localhost:5000/api/exercises");
+      this.setState({exercises: res.data})
+      let tempRandomExercises = getRandomExerciseTraining(this.state.exercises, this.state.trainingtime/60000, this.state.restTime);
+      this.setState({randomExerciseImages: tempRandomExercises})
+      window.addEventListener('beforeunload', this.beforeunload.bind(this));
+      this.createClickListenersForButtons();
+      this.createClickListenersForButtons("bar2-outer", "bar2-grey");
+    }
+    catch (error){
+      console.error(error);
+    }
   }
 
   componentWillUnmount() {

@@ -20,8 +20,6 @@ async function getAllCategories(){
 }
 
 async function createExercise(newExercise){
-    //const exercise = new Exercise({name: newExercise.name,category: {name: newExercise.category},imgSource: newExercise.imgSource});
-    // console.log("exercise: ", newExercise)
     const exercise = new Exercise({name: newExercise.name,category: newExercise.category,imgSource: newExercise.imgSource});
     exercise.save();
     return exercise.id;
@@ -46,9 +44,8 @@ async function getExerciseById(id){
 }
 
 async function getAllExercises(){
-    const exercises = await Exercise.find(); //.populate('exerciseSchema.category');
+    const exercises = await Exercise.find(); 
     console.log("exercises: ", exercises)
-    console.log("exercise category: ", exercises[0].category.name)
 
     return exercises;
 }

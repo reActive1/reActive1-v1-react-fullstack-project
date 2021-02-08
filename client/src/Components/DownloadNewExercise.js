@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import {Image} from 'cloudinary-react';
-import axios from 'axios';
 
 
 export default function DownloadNewExercise(){

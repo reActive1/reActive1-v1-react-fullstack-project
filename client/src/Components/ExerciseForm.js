@@ -30,24 +30,43 @@ class ExerciseForm extends React.Component {
   }
 
   async componentDidMount(){
-    const getCategoriesRes = await axios.get("http://localhost:5000/api/categories");
-    let categories = getCategoriesRes.data.map(params => {
-      return{
-        key: params.name,
-        text: params.name,
-        value: params.name
-      };
-    });
-    this.setState({categories: categories});
-    
+    let categories = await this.fetchCategories();
 
-    const URL = "http://localhost:5000/api/exercisesByCategory";
-    const URLs = categories.map(cat => { return axios.get(URL,{ params: { category: cat.key } })})
-    const exercises = await Promise.all(URLs)
     let categoryToExerciseMapper = {}
+    let exercises = await this.fetchExercisesByCategory(categories);
     exercises.forEach(ex => { categoryToExerciseMapper[ex.config.params.category] = ex.data; }) 
     this.setState({categoryToExerciseMapper: categoryToExerciseMapper});
     this.filterExerciseByCategory(categories[0].key)
+  }
+
+  async fetchCategories(){
+    try {
+      const getCategoriesRes = await axios.get("http://localhost:5000/api/categories");
+
+      let categories = getCategoriesRes.data.map(params => {
+        return{
+          key: params.name,
+          text: params.name,
+          value: params.name
+        };
+      });
+      this.setState({categories: categories});
+
+      return categories;
+    } catch (error){
+      console.error(error);
+    }
+  }
+
+  async fetchExercisesByCategory(categories){
+    const URL = "http://localhost:5000/api/exercisesByCategory";
+    const URLs = categories.map(cat => { return axios.get(URL,{ params: { category: cat.key } })})
+    try {
+       return await Promise.all(URLs)
+    } catch (error){
+      console.error(error);
+      return [];
+    }
   }
 
   randomFunctionHandler = async (event) => {
@@ -57,7 +76,6 @@ class ExerciseForm extends React.Component {
     const randomTimeId = Math.floor(Math.random() * timeOptionsValues.length); 
 
     this.setState({ name: randomExercise.name, imgSource: randomExercise.imgSource, time: timeOptionsValues[randomTimeId], repeats: 1 });
-    
   };
 
   filterExerciseByCategory(category){
@@ -66,15 +84,12 @@ class ExerciseForm extends React.Component {
     
     this.setState({excercisesByCategory: dropdownOptions}); 
     this.setState({type: category})
-
-    console.log("current drop down:", dropdownOptions)
   }
 
   filterExerciseByCategoryOnEvent = (e, data) => {
     this.filterExerciseByCategory(e.value);
     let excrciseName = this.state.categoryToExerciseMapper[e.value][0];
     this.setState({name: excrciseName.name});
-    
   };
 
   sumbitExerciseHandler = (e) => {
@@ -122,11 +137,10 @@ class ExerciseForm extends React.Component {
                         <Dropdown
                           fluid
                           selection
-                          onChange={(event, data) => {
+                          onChange={(event, data) => 
                             {
                               this.filterExerciseByCategoryOnEvent(data);
-                            }
-                          }}
+                            }}
                           options={this.state.categories}
                           defaultValue={this.state.type}
                         />

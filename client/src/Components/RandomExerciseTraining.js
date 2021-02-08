@@ -1,5 +1,4 @@
 import { getRandomExercise } from './RandomExercise';
-import {Exercises, restImgSource} from "../Common/Enums";
 
 export const getRandomExerciseTraining = (exercises, trainingTime, restTime) => {
             let ind = Math.floor(Math.random()*(3));

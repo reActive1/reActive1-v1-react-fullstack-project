@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import axios from 'axios';
 import "./CssComponents/SignForm.css"
 
@@ -34,7 +34,7 @@ export class SignIn extends React.Component {
         }
 
         try{
-            const res = await axios.post('http://localhost:5000/api/signin', registered);
+            const res = await axios.post('http://localhost:5000/api/signIn', registered);
             if (res.data === -1){
                 alert("password is not correct")
             }
