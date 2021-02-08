@@ -22,8 +22,9 @@ If you like surprises, and like to make it easy and fast, you can also choose a 
 
 ## Technologies
 * React
-* JavaScript (Express)
-* Mongo
+* Node.js (Express)
+* MongoDB
+* Cloudinary
 
 ## Setup
 1. Clone / download the repository
