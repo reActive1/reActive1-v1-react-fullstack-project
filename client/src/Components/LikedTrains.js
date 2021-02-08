@@ -97,7 +97,7 @@ class LikedTrains extends React.Component {
 						</div>
 						<div className="col-md-6">
 							<div className="myRightCtn">
-								{this.state.isUpdatedChosenSavedTraining === true ? (
+								{this.state.isUpdatedChosenSavedTraining ? (
 									<Container>
 										<Row className="py-4">
 											<h1 className="text-white">Training List</h1>

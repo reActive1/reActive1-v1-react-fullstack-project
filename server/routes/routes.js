@@ -163,14 +163,10 @@ router.get('/exercises', async (req, res) => {
 	}
 });
 
-router.get('/exercisesByCategory', async (req, res) => {
+router.get('/exercisesGroupByCategory', async (req, res) => {
 	try {
-		const exercises = await exerciseStore.getExercisesByCategory(req.query);
-		const editedExercises = exercises.map((ex) => {
-			return { name: ex.name, imgSource: ex.imgSource };
-		});
-
-		res.send(editedExercises);
+		const exercises = await exerciseStore.getExercisesGroupByCategory();
+		res.send(exercises);
 	} catch (error) {
 		console.error(error);
 		return res.json(error);
@@ -180,7 +176,6 @@ router.get('/exercisesByCategory', async (req, res) => {
 router.get('/categories', async (req, res) => {
 	try {
 		const categories = await exerciseStore.getAllCategories();
-
 		res.send(categories);
 	} catch (error) {
 		console.error(error);

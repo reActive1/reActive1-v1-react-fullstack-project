@@ -32,9 +32,24 @@ async function getExercisesByCategory(category) {
 }
 
 async function getAllExercises() {
-	const exercises = await Exercise.find();
-	console.log('exercises: ', exercises);
-	return exercises;
+    return await Exercise.find();
 }
 
-export { createCategory, createExercise, getExercisesByCategory, getAllExercises, getAllCategories };
+async function getExercisesGroupByCategory() {
+    const exercises = await Exercise.find();
+    const res = groupExercisesByCat(exercises, 'category')
+	return res;
+}
+
+function groupExercisesByCat(exercises, category){
+    return exercises.reduce((dict, obj) => {
+        let key = obj[category]
+        if (!dict[key]) {
+            dict[key] = []
+        }
+        dict[key].push({name: obj.name, imgSource: obj.imgSource})
+        return dict
+      }, {})
+}
+
+export { createCategory, createExercise, getExercisesByCategory, getAllExercises, getAllCategories, getExercisesGroupByCategory };

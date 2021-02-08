@@ -3,7 +3,7 @@ import './CssComponents/ExerciseForm.css';
 import 'semantic-ui-css/semantic.min.css';
 import { Dropdown, Label, Form, Input, Button, Icon } from 'semantic-ui-react';
 import { getRandomExercise } from './RandomExercise';
-import { timeOptions } from '../Common/Enums';
+import { timeOptions, restImgSource } from '../Common/Enums';
 import ExerciseList from './ExerciseList';
 import axios from 'axios';
 import { ENV } from './../Common/Enums.js';
@@ -17,7 +17,7 @@ class ExerciseForm extends React.Component {
 			categories: null,
 			categoryToExerciseMapper: {},
 			chosenExercisesArray: [],
-			type: 'Back exercises',
+			category: 'Back exercises',
 			name: 'Bird Dog',
 			imgSource:
 				'http://res.cloudinary.com/dudxklqht/image/upload/v1610896704/users_exercises/rlysbo99zbfwaak9dvpr.gif',
@@ -32,17 +32,18 @@ class ExerciseForm extends React.Component {
 	}
 
 	async componentDidMount() {
-		let categories = await this.fetchCategories();
-
-		let categoryToExerciseMapper = {};
-		let exercises = await this.fetchExercisesByCategory(categories);
-		exercises.forEach((ex) => {
-			console.log('ex:', ex);
-			categoryToExerciseMapper[ex.config.params.category] = ex.data;
-		});
-		this.setState({ categoryToExerciseMapper: categoryToExerciseMapper });
-		console.log('cateories[0]', categories[0]);
+		const categories = await this.fetchCategories();
+		await this.fetchExercisesGroupByCategory();
 		this.createExerciseDropDownOptions(categories[0].key);
+	}
+
+	async fetchExercisesGroupByCategory() {
+		try {
+			const { data } = await axios.get(`${ENV}/api/exercisesGroupByCategory`);
+			this.setState({ categoryToExerciseMapper: data });
+		} catch (error) {
+			console.error(error);
+		}
 	}
 
 	async fetchCategories() {
@@ -64,20 +65,6 @@ class ExerciseForm extends React.Component {
 		}
 	}
 
-	async fetchExercisesByCategory(categories) {
-		const URL = `${ENV}/api/exercisesByCategory`;
-		const URLs = categories.map((cat) => {
-			return axios.get(URL, { params: { category: cat.key } });
-		});
-		console.log('URLS: ', URLs);
-		try {
-			return await Promise.all(URLs);
-		} catch (error) {
-			console.error(error);
-			return [];
-		}
-	}
-
 	createExerciseDropDownOptions(category) {
 		var dropdownOptions = [];
 		this.state.categoryToExerciseMapper[category].forEach((exercise) =>
@@ -85,7 +72,7 @@ class ExerciseForm extends React.Component {
 		);
 
 		this.setState({ excercisesByCategory: dropdownOptions });
-		this.setState({ type: category });
+		this.setState({ category: category });
 	}
 
 	createExerciseDropDownOptionsOnEvent = (e, data) => {
@@ -96,7 +83,7 @@ class ExerciseForm extends React.Component {
 
 	randomFunctionHandler = async (event) => {
 		event.preventDefault();
-		const randomExercise = getRandomExercise(this.state.categoryToExerciseMapper[this.state.type]);
+		const randomExercise = getRandomExercise(this.state.categoryToExerciseMapper[this.state.category]);
 		const timeOptionsValues = timeOptions.map((option) => option.value);
 		const randomTimeId = Math.floor(Math.random() * timeOptionsValues.length);
 
@@ -110,7 +97,7 @@ class ExerciseForm extends React.Component {
 
 	sumbitExerciseHandler = (e) => {
 		e.preventDefault();
-		let exercise = this.state.categoryToExerciseMapper[this.state.type].find((ex) => ex.name === this.state.name);
+		let exercise = this.state.categoryToExerciseMapper[this.state.category].find((ex) => ex.name === this.state.name);
 		this.setState({ imgSource: exercise.imgSource }, this.createExercisesArray);
 	};
 
@@ -155,7 +142,7 @@ class ExerciseForm extends React.Component {
 														this.createExerciseDropDownOptionsOnEvent(data);
 													}}
 													options={this.state.categories}
-													defaultValue={this.state.type}
+													defaultValue={this.state.category}
 												/>
 											</Form.Field>
 											<Form.Field inline>
