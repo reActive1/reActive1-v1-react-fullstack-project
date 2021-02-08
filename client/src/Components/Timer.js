@@ -110,7 +110,6 @@ function Timer(props) {
                             key = {currentExercise}
                             duration={exercisesArrayWithRestsAndRepeats[currentExercise].time}
                             onComplete={() => {
-                                  // do your stuff here
                                   switchExercise();
                                   return [false, 0]
                                 }}

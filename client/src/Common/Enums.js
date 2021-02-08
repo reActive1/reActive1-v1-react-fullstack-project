@@ -99,3 +99,7 @@ export const MotivationList =
  ]
 
 export const restImgSource = "https://res.cloudinary.com/dudxklqht/image/upload/v1610909966/users_exercises/Rest_xiepyg.gif";
+
+export const ENV = "http://localhost:5000";
+
+export const USER = "0000000000000";

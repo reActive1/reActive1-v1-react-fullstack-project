@@ -5,7 +5,7 @@ import Loader from 'react-loader-spinner'
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import './CssComponents/UploadNewExercise.css';
 import * as IoIo from "react-icons/io";
-
+import { ENV } from "./../Common/Enums.js";
 
 export default function UploadNewExercise() {
     const [fileInputState] = useState('');
@@ -17,7 +17,7 @@ export default function UploadNewExercise() {
 
     useEffect(() => {
             async function fetchApi(){
-            const res = await axios.get("http://localhost:5000/api/categories");
+            const res = await axios.get(`${ENV}/api/categories`);
             let categoriesEdited = res.data.map(params => {
               return{
                 key: params.name,
@@ -45,18 +45,15 @@ export default function UploadNewExercise() {
 
     const handleSubmitFile = async (e) => {
         e.preventDefault();
-        // if (!previewSource) return;
         setSendData(true);
         const imgUrl = await uploadImage(previewSource);
-        console.log("categoryName: ", categoryName )
         const newExercise = {
             name: exerciseName,
             category: categoryName,
             imgSource: imgUrl
         }
-        console.log("new exercise: ", newExercise)
         try {
-            await axios.post('http://localhost:5000/api/newExercise',newExercise);
+            await axios.post(`${ENV}/api/newExercise`, newExercise);
             setSendData(false);
             alert("You did it!")
         } catch(error){
@@ -67,7 +64,7 @@ export default function UploadNewExercise() {
 
     const uploadImage = async (base64EncodedImage) => {
         try {
-           const req =  await axios.post('http://localhost:5000/api/uploadExerciseImg',{data : base64EncodedImage});
+           const req =  await axios.post(`${ENV}/api/uploadExerciseImg`,{data : base64EncodedImage});
            return req.data.imgUrl;
         } catch(error){
             console.error(error);
@@ -96,7 +93,6 @@ export default function UploadNewExercise() {
                     selection
                     options={categories}
                     value={categoryName}
-                    categoriesEdited
                     onChange={(event, select) => {
                         console.log(select.value)
                     setCategoryName(select.value)}}
