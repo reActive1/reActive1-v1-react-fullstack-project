@@ -6,14 +6,7 @@ async function calcTrainingTimeInDateRange(params) {
 	trainings.forEach((train) => {
 		dayToExercisesTimesMapper[new Date(train.startTime).getDay()] += train.totalTimeSec;
 	});
-
 	return dayToExercisesTimesMapper;
-}
-
-async function calcTotalTrainingOfUserLastMonth(parmas) {
-	const trainings = await getTrainingsByTimeRange(params);
-
-	return trainings;
 }
 
 export { calcTrainingTimeInDateRange };

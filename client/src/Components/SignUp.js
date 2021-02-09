@@ -13,7 +13,6 @@ export class SignUp extends React.Component {
 			email: '',
 			password: '',
 			gender: '',
-			gender2: '',
 			weight: '',
 			height: '',
 			passHidden: true

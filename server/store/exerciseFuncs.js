@@ -7,7 +7,6 @@ const Exercise = mongoose.model('exercises');
 async function createCategory(newCategory) {
 	const category = new Category({ name: newCategory.name });
 	category.save();
-	console.log('new category: ', category);
 }
 
 async function getAllCategories() {
@@ -27,7 +26,6 @@ async function createExercise(newExercise) {
 
 async function getExercisesByCategory(category) {
     const exercises = await Exercise.find(category);
-    
 	return exercises;
 }
 

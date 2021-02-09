@@ -3,10 +3,10 @@ import './CssComponents/ExerciseForm.css';
 import 'semantic-ui-css/semantic.min.css';
 import { Dropdown, Label, Form, Input, Button, Icon } from 'semantic-ui-react';
 import { getRandomExercise } from './RandomExercise';
-import { timeOptions, restImgSource } from '../Common/Enums';
+import { timeOptions } from '../Common/Enums';
 import ExerciseList from './ExerciseList';
 import axios from 'axios';
-import { ENV } from './../Common/Enums.js';
+import { ENV, DefaultExercise } from './../Common/Enums.js';
 
 class ExerciseForm extends React.Component {
 	constructor(props) {
@@ -17,10 +17,9 @@ class ExerciseForm extends React.Component {
 			categories: null,
 			categoryToExerciseMapper: {},
 			chosenExercisesArray: [],
-			category: 'Back exercises',
-			name: 'Bird Dog',
-			imgSource:
-				'http://res.cloudinary.com/dudxklqht/image/upload/v1610896704/users_exercises/rlysbo99zbfwaak9dvpr.gif',
+			category: DefaultExercise.category,
+			name: DefaultExercise.name,
+			imgSource: DefaultExercise.imgSource,
 			time: 30,
 			repeats: 1,
 			restTime: parseInt(this.props.match.params.restTime),
@@ -97,7 +96,9 @@ class ExerciseForm extends React.Component {
 
 	sumbitExerciseHandler = (e) => {
 		e.preventDefault();
-		let exercise = this.state.categoryToExerciseMapper[this.state.category].find((ex) => ex.name === this.state.name);
+		let exercise = this.state.categoryToExerciseMapper[this.state.category].find(
+			(ex) => ex.name === this.state.name
+		);
 		this.setState({ imgSource: exercise.imgSource }, this.createExercisesArray);
 	};
 

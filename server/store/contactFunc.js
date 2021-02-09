@@ -6,8 +6,8 @@ const Contact = mongoose.model('contacts');
 async function createContact(newContact) {
 	const contact = new Contact(newContact);
 	contact.save();
-	console.log('created new contact: ', contact);
-	return contact;
+
+    return contact;
 }
 
 export { createContact };

@@ -23,7 +23,7 @@ router.post('/savedTrains', async (req, res) => {
 			totalTimeSec: req.body.totalTrainingTime,
 			exerciseList: req.body.chosenExercisesArray
 		};
-		await trainingStore.createTraining(newSavedTrain);
+		const data = await trainingStore.createTraining(newSavedTrain);
 
 		res.json(data);
 	} catch (error) {
@@ -39,8 +39,8 @@ router.post('/startTraining', async (req, res) => {
 			trainingId: req.body.trainingId,
 			totalTimeSec: req.body.totalTrainingTime
 		};
-		await trainingStore.startTraining(train);
-
+        const data = await userTrainingStore.startTraining(train);
+        
 		res.json(data);
 	} catch (error) {
 		console.error(error);
@@ -56,7 +56,7 @@ router.post('/contactUs', async (req, res) => {
 			phone: req.body.phone,
 			message: req.body.message
 		};
-		await contactStore.createContact(newContact);
+		const data = await contactStore.createContact(newContact);
 
 		res.json(data);
 	} catch (error) {
@@ -79,7 +79,7 @@ router.post('/signUp', async (req, res) => {
 			height: req.body.height,
 			weight: req.body.weight
 		};
-		await userStore.createUser(newUser);
+		const data = await userStore.createUser(newUser);
 
 		res.json(data);
 	} catch (error) {
@@ -92,17 +92,16 @@ router.post('/signIn', async (req, res) => {
 	try {
 		const userName = req.body.userName;
 		const password = req.body.password;
-
 		const user = await userStore.getUserByUserName(userName);
 		const isPassCorrect = await bcrypt.compare(password, user.password);
 		if (isPassCorrect) {
-			console.log('password correct!');
+			console.log('password correct!', isPassCorrect);
 		} else {
-			console.log('password NOOOOOOT correct!');
+			console.log('password NOOOOOOT correct!', isPassCorrect);
 		}
 		const result = isPassCorrect ? user.id : -1;
 
-		res.send(result);
+		res.json(result);
 	} catch (error) {
 		console.error(error);
 		return res.json(error);
@@ -156,7 +155,7 @@ router.get('/exercises', async (req, res) => {
 			};
 		});
 
-		res.send(editedRes);
+		res.json(editedRes);
 	} catch (error) {
 		console.error(error);
 		return res.json(error);
@@ -166,7 +165,7 @@ router.get('/exercises', async (req, res) => {
 router.get('/exercisesGroupByCategory', async (req, res) => {
 	try {
 		const exercises = await exerciseStore.getExercisesGroupByCategory();
-		res.send(exercises);
+		res.json(exercises);
 	} catch (error) {
 		console.error(error);
 		return res.json(error);
@@ -176,7 +175,7 @@ router.get('/exercisesGroupByCategory', async (req, res) => {
 router.get('/categories', async (req, res) => {
 	try {
 		const categories = await exerciseStore.getAllCategories();
-		res.send(categories);
+		res.json(categories);
 	} catch (error) {
 		console.error(error);
 		return res.json(error);
@@ -192,7 +191,7 @@ router.get('/images', async (req, res) => {
 			.execute();
 		const publicIds = resources.map((file) => file.public_id);
 
-		res.send(publicIds);
+		res.json(publicIds);
 	} catch (error) {
 		console.error(error);
 		return res.json(error);
@@ -202,8 +201,7 @@ router.get('/images', async (req, res) => {
 router.get('/allTraining', async (req, res) => {
 	try {
 		const resources = await trainingStore.getAllTraining();
-
-		res.send(resources);
+		res.json(resources);
 	} catch (error) {
 		console.error(error);
 		return res.json(error);
@@ -213,30 +211,27 @@ router.get('/allTraining', async (req, res) => {
 router.get('/allSavedTrainings', async (req, res) => {
 	try {
 		const resources = await trainingStore.getAllSavedTrainings();
-
-		res.send(resources);
+		res.json(resources);
 	} catch (error) {
 		console.error(error);
 		return res.json(error);
 	}
 });
 
-router.get('/trainingsByUser', async (req, res) => {
+router.get('/numOfTrainingsByUser', async (req, res) => {
 	try {
-		const trainings = await userTrainingStore.getTrainingsByUser(req.query);
-
-		res.send(trainings);
+        const numOfTrainings = await userTrainingStore.getNumOfTrainingsByUser(req.query);
+        res.json({ numOfTrainings : numOfTrainings });
 	} catch (error) {
 		console.error(error);
 		return res.json(error);
 	}
 });
 
-router.get('/trainingsByTimes', async (req, res) => {
+router.get('/numOftrainingsByTimes', async (req, res) => {
 	try {
 		const trainings = await userTrainingStore.getTrainingsByTimeRange(req.query);
-
-		res.send(trainings);
+		res.json({ numOfTrainings : trainings.length });
 	} catch (error) {
 		console.error(error);
 		return res.json(error);
@@ -246,8 +241,7 @@ router.get('/trainingsByTimes', async (req, res) => {
 router.get('/trainingsOfWeek', async (req, res) => {
 	try {
 		const trainings = await trainingStatistics.calcTrainingTimeInDateRange(req.query);
-
-		res.send(trainings);
+		res.json(trainings);
 	} catch (error) {
 		console.error(error);
 		return res.json(error);

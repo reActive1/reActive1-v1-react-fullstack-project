@@ -12,8 +12,6 @@ const userSchema = new Schema({
               default: 'female' },
     weight: Number,
     height: Number,
-    likedTrainings: [{ rate: Number, trainingId: String }],
-    trainingList: [{ trainingId: String }]
 });
 
 export default mongoose.model('users', userSchema);

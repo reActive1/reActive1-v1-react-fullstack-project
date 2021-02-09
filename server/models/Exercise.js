@@ -8,7 +8,6 @@ export const categorySchema = new Schema({
 
 const categories = mongoose.model('categories',categorySchema);
 
-
 export const exerciseSchema = new Schema({
     name: String, 
     category: String, 

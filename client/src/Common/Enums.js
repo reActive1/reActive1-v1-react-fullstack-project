@@ -103,3 +103,10 @@ export const restImgSource = "https://res.cloudinary.com/dudxklqht/image/upload/
 export const ENV = "http://localhost:5000";
 
 export const USER = "0000000000000";
+
+export const DefaultExercise = {
+    category: 'Back exercises',
+    name: 'Bird Dog',
+    imgSource:
+        'http://res.cloudinary.com/dudxklqht/image/upload/v1610896704/users_exercises/rlysbo99zbfwaak9dvpr.gif',
+};

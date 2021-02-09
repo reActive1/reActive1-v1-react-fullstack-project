@@ -5,12 +5,12 @@ const { Schema } = mongoose;
 const trainingSchema = new Schema({
     name: String, // given name by user 
     createdAt: Date,
-    author: String, // - maybe should be user id ?
+    author: String, 
     restTime: Number,
     isRandom: Boolean,
     isSaved: Boolean,
     totalTimeSec: Number, 
-    exerciseList: [{ exerciseId: String, name: String, time: Number, repeats: Number, imgSource: String}],  // duration instead time. maybe remove exerciseName
+    exerciseList: [{ exerciseId: String, name: String, time: Number, repeats: Number, imgSource: String}],  
 });
 
 const trainings = mongoose.model('trainings', trainingSchema);

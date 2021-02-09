@@ -14,60 +14,77 @@ export default class Overview extends PureComponent {
 			startDate: new Date(),
 			weekData: [],
 			numberOfTrainingsCurMonth: 0,
-			totalNumberOfTrainings: 0
+			totalNumberOfTrainings: 0,
+			startMonthDate: new Date()
 		};
 	}
 
 	async componentDidMount() {
-		this.calcTrainingsLastMonth();
 		this.calcTrainingSinceRegistration();
-		this.handleSelectedDateAndCalcGraphData();
-	}
-
-	async calcTrainingsLastMonth() {
-		const d = new Date(Date.now());
-		const startMonthDate = new Date(d.setMonth(d.getMonth() - 1));
-		try {
-			const trainingsLastMonth = await axios.get(`${ENV}/api/trainingsByTimes`, {
-				params: { userId: `${USER}`, startTime: startMonthDate, endTime: Date.now() }
-			});
-			this.setState({ numberOfTrainingsCurMonth: trainingsLastMonth.data.length });
-		} catch (error) {
-			console.error(error);
-		}
+		this.handleSelectedDate();
 	}
 
 	async calcTrainingSinceRegistration() {
 		try {
-			const totalNumberOfTrainings = await axios.get(`${ENV}/api/trainingsByUser`, {
+			const totalNumberOfTrainings = await axios.get(`${ENV}/api/numOfTrainingsByUser`, {
 				params: { userId: `${USER}` }
 			});
-			this.setState({ totalNumberOfTrainings: totalNumberOfTrainings.data.length });
+			this.setState({ totalNumberOfTrainings: totalNumberOfTrainings.data.numOfTrainings });
 		} catch (error) {
 			console.error(error);
 		}
 	}
 
-	async handleSelectedDateAndCalcGraphData() {
+	async handleSelectedDate() {
+		this.calcGraphData();
+		this.calcTrainingsLastMonth();
+	}
+
+	async calcTrainingsLastMonth() {
+		const d = this.state.startDate;
+		const startMonthDate = new Date(d.getFullYear(), d.getMonth(), 1);
+		const endMonthDate = new Date(
+			d.getFullYear(),
+			d.getMonth(),
+			this.daysInMonth(d.getMonth() + 1, d.getFullYear())
+		);
+		if (this.state.startMonthDate.valueOf() === startMonthDate.valueOf()) {
+			return;
+		}
+
+		this.setState({ startMonthDate: startMonthDate });
 		try {
-			const endTime = new Date(new Date().setDate(this.state.startDate.getDate() + 6));
+			const trainingsLastMonth = await axios.get(`${ENV}/api/numOftrainingsByTimes`, {
+				params: { userId: `${USER}`, startTime: startMonthDate, endTime: endMonthDate }
+			});
+			this.setState({ numberOfTrainingsCurMonth: trainingsLastMonth.data.numOfTrainings });
+		} catch (error) {
+			console.error(error);
+		}
+	}
+
+	async calcGraphData() {
+		try {
+			const endTime = new Date(this.state.startDate.getTime() + 6 * 24 * 60 * 60 * 1000);
+			const startDayOfDate = this.state.startDate.setHours(0, 0, 0, 0);
 			const trainingsByDays = await axios.get(`${ENV}/api/trainingsOfWeek`, {
-				params: { userId: `${USER}`, startTime: this.state.startDate, endTime: endTime }
+				params: { userId: `${USER}`, startTime: startDayOfDate, endTime: endTime }
 			});
 			const dayOfDate = new Date(this.state.startDate).getDay();
-			const weekData = [
-				{ name: dayOfDate % 7, value: trainingsByDays.data[dayOfDate % 7] },
-				{ name: (dayOfDate + 1) % 7, value: trainingsByDays.data[(dayOfDate + 1) % 7] },
-				{ name: (dayOfDate + 2) % 7, value: trainingsByDays.data[(dayOfDate + 2) % 7] },
-				{ name: (dayOfDate + 3) % 7, value: trainingsByDays.data[(dayOfDate + 3) % 7] },
-				{ name: (dayOfDate + 4) % 7, value: trainingsByDays.data[(dayOfDate + 4) % 7] },
-				{ name: (dayOfDate + 5) % 7, value: trainingsByDays.data[(dayOfDate + 5) % 7] },
-				{ name: (dayOfDate + 6) % 7, value: trainingsByDays.data[(dayOfDate + 6) % 7] }
-			];
+			let weekData = [];
+			let i = 0;
+			while (i < 7) {
+				weekData.push({ name: (dayOfDate + i) % 7, value: trainingsByDays.data[(dayOfDate + i) % 7] });
+				i++;
+			}
 			this.setState({ weekData: weekData });
 		} catch (error) {
 			console.error(error);
 		}
+	}
+
+	daysInMonth(month, year) {
+		return new Date(year, month, 0).getDate();
 	}
 
 	render() {
@@ -85,11 +102,9 @@ export default class Overview extends PureComponent {
 												<Card.Title>Pick a date</Card.Title>
 												<DatePicker
 													selected={this.state.startDate}
-													onChange={(date) =>
-														this.setState(
-															{ startDate: date },
-															this.handleSelectedDateAndCalcGraphData
-														)}
+													onChange={(date) => {
+														this.setState({ startDate: date }, this.handleSelectedDate);
+													}}
 													inline
 												/>
 											</Card.Body>
