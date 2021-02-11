@@ -30,11 +30,11 @@ export default function UploadNewExercise() {
 			}
 			fetchApi();
 		},
-		[ categories ]
+		[]
 	);
 
 	const handleFileInputChange = (e) => {
-		const file = e.target.files[0];
+        const file = e.target.files[0];
 		previewFile(file);
 	};
 
